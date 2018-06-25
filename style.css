@@ -1,0 +1,456 @@
+<style>
+body
+{
+	width: 100%;
+	height: 100%;
+}
+#head
+{
+	margin-left: -8px;
+	margin-right: 102px;
+ 	margin-top:-8px;
+	/*background-color: grey;*/
+	display: inline;
+	width: 100vw;
+	height: 15vmin;
+}
+#title
+{
+	margin:1vmin;
+	margin-left: 2vmin;
+	width:60vw;
+	height:14vmin;
+}
+
+.buttons
+{
+	font-size: 1.1vmin;
+	text-align: center;
+	width: 6vw;
+	padding: 1.3vmin;
+	float: right;
+	background-color: #1d1919;
+	border-radius: 10px;
+	display: inline-block;
+	margin: 1px;
+	color:white;
+}
+
+.pad
+{
+	position:absolute;
+	top:2vh;
+	right: 4vw;
+	box-shadow: 10px 10px 10px;
+	border: 1px solid black;
+	display: inline-block;
+	border-radius: 10px;
+	background-color: #808080;
+	padding: 0.3vmin;
+}
+
+#success
+{
+	float:right;
+	display: inline;
+	margin:10px;
+	border: 1px solid black;
+	color:#4CAF50;
+	padding:10px;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+#error
+{
+	float:right;
+	margin:10px;
+	padding:10px;
+	border: 1px solid black;
+	color:red;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+.imgprofil
+{
+	border-radius: 5px;
+	margin:5px;
+}
+
+#pageprofil
+{
+	background-image: url('../background2.png');
+	background-repeat: repeat-y;
+	background-size: 100%;
+}
+
+.score, .location
+{
+	background-color: #909090;
+	padding: 10px;
+	border:1px solid black;
+	border-radius: 10px;
+}
+
+.pictures
+{
+	padding: 10px;
+	display:flex;
+	border:1px solid black;
+	background-color: #909090;
+	border-radius: 10px;
+	overflow-x: scroll;
+}
+
+.profile
+{
+	border-radius: 10px;
+	padding: 10px;
+	border:3px solid black;
+	box-shadow: 1px 1px 7px 7px #888888;
+}
+
+.addtag
+{
+	text-align: center;
+}
+
+
+.profile h2, #ypro
+{
+	color: rgb(0, 0, 0);
+	background-color: rgb(242, 242, 242, 0.6);
+	padding:4px;
+	display:inline-block;
+	border-radius: 7px;
+}
+
+#sc
+{
+	background-color: rgb(242, 242, 242, 0.5);
+	display: inline-block;
+	border-radius: 2px;
+}
+
+.account
+{
+	background-color: #909090;
+	padding: 10px;
+	border:1px solid black;
+	border-radius: 10px;
+}
+
+.caracs
+{
+	background-color: #909090;
+	padding: 10px;
+	border:1px solid black;
+	border-radius: 10px;
+}
+
+#buttondeletetag
+{
+	margin-left:7px;
+	width: 10px;
+	height: 10px;
+}
+
+.tags
+{
+	padding: 10px;
+	border:1px solid black;
+	background-color: #909090;
+	border-radius: 10px;
+	display: flex;
+}
+
+.tag
+{
+	display: inline-block;
+	padding:4px;
+	background-color: rgba(255, 255, 255, 0.8);
+	margin-top: 2px;
+	margin-left: 2px;
+	border-radius: 5px;
+	color:black;
+}
+
+.actualtags
+{
+	
+	border: 1px solid black;
+	margin-left: 20px;
+	width: 85vw;
+	border-radius: 10px;
+	padding:5px;
+}
+
+.profilebox
+{
+	width: 200px;
+	height: 20px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 1px;
+	margin-bottom: 7px;
+	margin-top: 7px;
+}
+
+.profilebutton
+{
+	width: 110px;
+	height: 20px;
+	border-radius: 4px;
+	box-shadow: 1px 1px 1px;
+}
+
+.profilebigbox
+{
+	width: 90%;
+	height: 100px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 1px;
+	margin-bottom: 7px;
+	margin-top: 7px;
+}
+
+.bio
+{
+	margin-top: 10px;
+	text-align: center;
+	padding:10px;
+	border-radius: 10px;
+	border: 1px solid black;
+}
+
+
+#forgot
+{
+	text-align: center;
+	width: 360px;
+	height: 240px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+	border: 1px solid black;
+	box-shadow: 3px 3px 3px;
+	border-radius: 10px;
+}
+
+.sets
+{
+	width: 198px;
+	background-color: white;
+	border: 1px solid black;
+	height: 80px;
+	text-align: center;
+}
+.sets p
+{
+	margin-top: 20px;
+}
+.log
+{
+	text-align: center;
+	padding: 10px 10px 10px 10px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	border: 1px solid black;
+	border-radius: 10px;
+	width: 360px;
+	height: 560px;
+	box-shadow: 3px 3px 3px;
+}
+
+.user
+{
+	width: 330px;
+	height: 40px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	box-shadow: 2px 2px 2px;
+}
+
+.userinput
+{
+	margin-top: 14px;
+	cursor:pointer;
+	background-color: grey;
+	color:white;
+	width: 300px;
+}
+
+::-webkit-input-placeholder
+{
+	text-align: center;
+}
+
+
+/* PROFILE */
+.cadre_profil{
+    border: solid grey 1px;
+    width: 90vw;
+    height: 5vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#page_profile_div{
+    /* margin-left: 220px; */
+    border: solid black 1px;
+}
+#photo_case{
+    height: 25vh;
+    /* background-color: blue; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.photo{
+    height: 18vh;
+    width: auto;
+}
+.div_photo{
+    display: flex;
+    flex-direction: column;
+}
+#profile_photo{
+    height: 22vh;
+}
+
+.footer {
+    width:100%;
+    height:5vh;
+    position:absolute;
+    bottom:0px;
+    color:white;
+}
+
+/* BOUTON SWITCH */
+
+.checklocation
+{
+	display:none;
+}
+.switch
+{
+display: inline-block;
+width: 32px;
+height: 17px;
+background: #E5E5E5;
+z-index: 0;
+margin: 0;
+padding: 0;
+appearance: none;
+border: none;
+cursor: pointer;
+position: relative;
+-webkit-border-radius:16px; //Chrome and Safari
+margin-right: 5px;
+}
+.switch:before
+{
+content: ' ';
+position: absolute;
+left: 1px;
+top: 0px;
+width: 32px;
+height: 17px;
+background: #FFFFFF;
+z-index: 1;
+-webkit-border-radius:16px; //Chrome and Safari
+}
+.switch:after 
+{
+content: ' ';
+height: 18px;
+width: 18px;
+border-radius: 28px;
+background: #FFFFFF;
+position: absolute;
+z-index: 2;
+top: 0px;
+left: 1px;
+-webkit-transition-duration: 300ms;
+transition-duration: 300ms;
+-webkit-box-shadow: 0 2px 5px #999999;
+box-shadow: 0 2px 5px #999999;
+}
+.switchOn , .switchOn:before
+{
+background: #4cd964 !important;
+}
+.switchOn:after
+{
+left: 15px !important;
+}
+
+/* PUBLIC PROFILE */
+.inlineblock
+{
+	display: inline-block;
+}
+.grey
+{
+    background-color: rgba(144,144,144,0.8);
+    padding: 10px;
+    border:1px solid black;
+    border-radius: 10px;
+}
+.white
+{
+    padding:10px;
+    background-color: rgba(255,255,255,0.4);
+    border:1px solid black;
+    border-radius: 10px;
+}
+.img
+{
+    width:30vw;
+    height:20vw;
+    display: inline-block;
+}
+.img1
+{
+	border:1px solid black;
+	text-align: center;
+	box-shadow: 0px 0px 5px 5px black;
+	border-radius: 5px;
+}
+
+#white
+{
+	color:white;
+}
+
+.glob
+{
+	background-color: rgba(144,144,144,0.8);
+    padding: 10px;
+    border:1px solid black;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.left
+{
+    position:absolute;
+    right:0;
+    overflow-y: auto;
+}
+
+.photoprincipale
+{
+	text-align: center;
+}
+
+.public
+{
+    margin-left:2vw;
+    width:60vw;
+    border:1px solid black;
+    box-shadow: 5px 5px 5px black;
+
+}
+
+</style>

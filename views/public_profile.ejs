@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8" />
+    <title>Your Profile</title>
+     <%- css.style %>
+</head>
+<body id="pageprofil">
+<% include header.ejs %>
+<div class='left grey'>
+	<img class=img src="<%- profile.img2 %>"><BR \>
+	<img class=img src="<%- profile.img3 %>"><BR \>
+	<img class=img src="<%- profile.img4 %>"><BR \>
+	<img class=img src="<%- profile.img5 %>"><BR \>
+</div>
+<div class='grey public'>
+	<h1 style="text-align: center;"><%- profile.firstname %>  <%- profile.lastname %>'s Profile</h1>
+	<HR /><br/>
+<div class="photoprincipale">
+	<img class="img img1" src="<%- profile.img1 %>"><BR \>
+</div>
+	<br/>
+	<HR /><br/>
+	<div class="glob">
+	<h3> Username: <i id="white"><%- profile.login %></i> </h3>
+	<h3> Gender: <i id="white"><%- profile.gender %></i> </h3>
+	<h3> Age: <i id="white"><%- profile.age %></i></h3>
+	<h3> Sexual Orientation: <i id="white"><%- profile.orientation %></i> </h3>
+	<h3> Score of Popularity: <i id="white"><%- profile.score %></i> </h3>
+</div>
+<div class="glob_bio">
+	<h3> Biography: </h3>
+	<p class=white><%- profile.bio %> </p>
+</div>
+<div class="glob_tag">
+	<h3> Tags: </h3>
+	
+	
+	<%
+       if (typeof profile && profile.tag) { i = 0
+       	 while (profile.tag[i]) { %>
+            <div class="tag"><strong>#<%- profile.tag[i].tag %> </strong></div>
+        <% i++ }} %> </div><br/>
+        <HR \>
+        <% if (typeof profile && profile.showlocation === 1) {  %>
+<p style="text-align: center;"><strong>Location:</strong><br/><br/><i> <%- profile.location %><br/></i>
+	<% } else if(typeof profile && profile.showlocation === 0 && profile.fakelocation != '' && profile.fakelocation != ' ') { %> 
+	<p style="text-align: center;"><strong>Location:</strong><br/><br/><i> <%- profile.fakelocation %><br/></i>
+	<% } %>
+	</i></p>
+</div>
+
+</body></html>
