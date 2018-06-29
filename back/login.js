@@ -4,8 +4,8 @@ var table = JSON.parse(req.body.table)
     location = 'Continent : ' + table.continent_name + ' | Country : ' + table.country_name + 
   ' | Region : ' + table.region_name + ' | City : ' + table.city + ' | Postal Code : ' + table.zip
 
-    con.query('UPDATE users SET location = ? WHERE id = ?', [location, ssn.profile.id], function (err) { if (err) throw err })
-    ssn.profile.location = location;
+    con.query('UPDATE users SET location = ? WHERE id = ?', [location, req.session.profile.id], function (err) { if (err) throw err })
+    req.session.profile.location = location;
 }
 else if (req.body.login && req.body.pass)
 {
@@ -21,28 +21,27 @@ else if (req.body.login && req.body.pass)
                {
                    if (result[0].confirm === 1)
                    {
-                        ssn = req.session
-                        ssn.profile = result[0]
+                        req.session.profile = result[0]
                         sql = 'SELECT * FROM `tags` WHERE user_id = ?'
-                        con.query(sql, [ssn.profile.id], function (err, result) {
+                        con.query(sql, [req.session.profile.id], function (err, result) {
                           if (err) throw err
                             i = 0;
-                            ssn.profile.tag = result
+                            req.session.profile.tag = result
                       })
-                       res.render('login.ejs', {css: css, success: 'CONGRATULATION YOU ARE LOGGED IN'})
+                       res.render('login.ejs', {req: req, css: css, success: 'CONGRATULATION YOU ARE LOGGED IN'})
                    }
                    else
-                       res.render('login.ejs', {css: css, error: 'A confirmation e-mail has been sent'})
+                       res.render('login.ejs', {req: req, css: css, error: 'A confirmation e-mail has been sent'})
                }
                else
-                   res.render('login.ejs', {css: css, error: 'ERREUR DE CONNEXION ! (invalid pass)'})
+                   res.render('login.ejs', {req: req, css: css, error: 'ERREUR DE CONNEXION ! (invalid pass)'})
            })
        }
        else
        {
-           res.render('login.ejs', {css: css, error: 'ERREUR DE CONNEXION ! (login inconnu)'})
+           res.render('login.ejs', {req: req, css: css, error: 'ERREUR DE CONNEXION ! (login inconnu)'})
        }
     })
 }
 else
-    res.render('login.ejs', {css: css, error: 'Filling in Every field is required'})
+    res.render('login.ejs', {req: req, css: css, error: 'Filling in Every field is required'})

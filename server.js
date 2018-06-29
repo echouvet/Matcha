@@ -65,33 +65,33 @@ server.use(bodyParser.urlencoded({ extended: true }))
 server.listen(8080)
 
 server.get('/', function(req,res){
-    res.render('index.ejs', {css: css})
+    res.render('index.ejs', {req: req, css: css})
 })
 .get('/index', function(req, res) {
     res.render('index.ejs')
 })
 .get('/login', function(req,res){
-    if (ssn.profile == undefined)
-        res.render('login.ejs', {css: css})
+    if (req.session.profile == undefined)
+        res.render('login.ejs', {req: req, css: css})
     else 
-        res.render('profile.ejs', {css: css, error: 'none', profile: ssn.profile})
+        res.render('profile.ejs', {req: req, css: css, error: 'none', profile: req.session.profile})
 })
 .get('/register', function(req,res){
-    res.render('register.ejs', {css: css, error: 'none'})
+    res.render('register.ejs', {req: req, css: css, error: 'none'})
 })
 .get('/profile', function(req,res){
-    if (ssn.profile == undefined)
-        res.render('login.ejs', {css: css, error: 'Please login to access your profile page'})
+    if (req.session.profile == undefined)
+        res.render('login.ejs', {req: req, css: css, error: 'Please login to access your profile page'})
     else 
-        res.render('profile.ejs', {css: css, error: 'none', profile: ssn.profile})
+        res.render('profile.ejs', {req: req, css: css, error: 'none', profile: req.session.profile})
 })
 .get('/logout', function(req,res){
     req.session.destroy()
-    ssn = 0;
+    req.session = 0;
     res.redirect('/')
 })
 .get('/public_profile', function(req,res){
-   res.render('public_profile.ejs', {css: css, profile: ssn.profile}) //faudra changer ssn.profile pour le profile de l'utilisateur selectionné
+   res.render('public_profile.ejs', {req: req, css: css, profile: req.session.profile}) //faudra changer req.session.profile pour le profile de l'utilisateur selectionné
 })
 .post('/register', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/register.js")+'')

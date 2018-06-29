@@ -1,7 +1,7 @@
  <div id="head">
 	<a href="/"><img src="../title.png" id=title></a>
 		<div class="pad">
-		<% if (typeof ssn.profile !== 'undefined' && typeof ssn.profile.login !== 'undefined' && ssn.profile.login) { %> 
+		<% if (typeof req.session !== 'undefined' && typeof req.session.profile !== 'undefined' && typeof req.session.profile.login !== 'undefined' && req.session.profile.login) { %> 
 		<a href="/logout"><div class="buttons"> Logout </div></a>
 		<a href="/profile"><div class="buttons">My account</div></a>
 		<a href="/public_profile"><div class="buttons">Public profile</div></a><br/>

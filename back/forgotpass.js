@@ -27,7 +27,7 @@ var smtpTransport = mailer.createTransport("SMTP",
         
     smtpTransport.sendMail(mail, function(error, response){
     if (error) { 
-          res.render('login.ejs', {css: css, error: 'Error whilst sending e-mail : ' + error}) 
+          res.render('login.ejs', {req: req, css: css, error: 'Error whilst sending e-mail : ' + error}) 
       }
     else {
         bcrypt.hash(newpass, 10, function(err, hash) { 
@@ -37,10 +37,10 @@ var smtpTransport = mailer.createTransport("SMTP",
             function (error, result) 
             { 
             if (error) throw error }) })
-        res.render('login.ejs', {css: css, success2: "Un mail de reinitialisation du mot de passe vient d'être envoyé !"})
+        res.render('login.ejs', {req: req, css: css, success2: "Un mail de reinitialisation du mot de passe vient d'être envoyé !"})
      }
      smtpTransport.close() })
     }
     else
-        res.render('login.ejs', {css: css, error2: "Email inexistant !"})
+        res.render('login.ejs', {req: req, css: css, error2: "Email inexistant !"})
 })
