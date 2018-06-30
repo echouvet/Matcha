@@ -109,7 +109,8 @@ server.get('/', function(req,res){
 })
 .get('/user_profile/:id', function(req,res){
     con.query('SELECT * FROM users WHERE id = ?', [req.params.id], function (err, result) { if (err) throw err 
-    res.render('public_profile.ejs', {req: req, css: css, profile: result[0] }) })
+    con.query('SELECT * FROM tags WHERE user_id = ?', [req.params.id], function (err, resultag) { if (err) throw err 
+    res.render('public_profile.ejs', {req: req, css: css, profile: result[0], tag: resultag }) }) })
 })
 .get('/register', function(req,res){
     res.render('register.ejs', {req: req, css: css, error: 'none'})
@@ -121,7 +122,7 @@ server.get('/', function(req,res){
         res.render('profile.ejs', {req: req, css: css, error: 'none', profile: req.session.profile})
 })
 .get('/public_profile', function(req,res){
-   res.render('public_profile.ejs', {req: req, css: css, profile: req.session.profile})
+   res.render('public_profile.ejs', {req: req, css: css, profile: req.session.profile, tag: req.session.profile.tag})
 })
 .post('/register', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/register.js")+'')

@@ -36,9 +36,9 @@
 	
 	
 	<%
-       if (typeof profile && profile.tag) { i = 0
-       	 while (profile.tag[i]) { %>
-            <div class="tag"><strong>#<%- profile.tag[i].tag %> </strong></div>
+       if (typeof tag && tag) { i = 0
+       	 while (tag[i]) { %>
+            <div class="tag"><strong>#<%- tag[i].tag %> </strong></div>
         <% i++ }} %> </div><br/>
         <HR \>
         <% if (typeof profile && profile.showlocation === 1) {  %>
