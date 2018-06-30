@@ -3,7 +3,6 @@ if (req.body.table)
 var table = JSON.parse(req.body.table)
     location = 'Continent : ' + table.continent_name + ' | Country : ' + table.country_name + 
   ' | Region : ' + table.region_name + ' | City : ' + table.city + ' | Postal Code : ' + table.zip
-
     con.query('UPDATE users SET location = ? WHERE id = ?', [location, req.session.profile.id], function (err) { if (err) throw err })
     req.session.profile.location = location;
 }
@@ -27,8 +26,8 @@ else if (req.body.login && req.body.pass)
                           if (err) throw err
                             i = 0;
                             req.session.profile.tag = result
+                            res.render('login.ejs', {req: req, css: css, success: 'CONGRATULATION YOU ARE LOGGED IN'})
                       })
-                       res.render('login.ejs', {req: req, css: css, success: 'CONGRATULATION YOU ARE LOGGED IN'})
                    }
                    else
                        res.render('login.ejs', {req: req, css: css, error: 'A confirmation e-mail has been sent'})

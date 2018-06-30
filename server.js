@@ -64,8 +64,34 @@ server.use(ssn({ secret: 'Eloi has a beautiful secret', resave: true, saveUninit
 server.use(bodyParser.urlencoded({ extended: true }))
 server.listen(8080)
 
+function profilevalidate(req, res, css, p)
+{
+    if (p.confirm !== 1)
+    {
+        res.render('login.ejs', {req: req, css: css, error: 'Please confirm your accont by email'})
+        return false
+    }
+    else if (!p.gender || !p.orientation || !p.bio || !p.age || p.img1 == 'empty.png')
+    {
+        res.render('profile.ejs', {req: req, css: css, error: 'Please complete your profile before choosing your peer', profile: p})
+        return false
+    }
+    else
+        return true
+}
 server.get('/', function(req,res){
-    res.render('index.ejs', {req: req, css: css})
+    if (req.session.profile == undefined)
+        res.render('index.ejs', {req: req, css: css})
+    else if (profilevalidate(req, res, css, req.session.profile) == false)
+        return ;
+    else
+    {
+        con.query('SELECT * FROM users', function (err, result) { if (err) throw err 
+        res.render('peers.ejs', {req: req, peer: result, css: css}) })
+    }
+})
+.get('/peers', function(req, res) {
+    res.redirect('/')
 })
 .get('/index', function(req, res) {
     res.render('index.ejs')
@@ -76,6 +102,15 @@ server.get('/', function(req,res){
     else 
         res.render('profile.ejs', {req: req, css: css, error: 'none', profile: req.session.profile})
 })
+.get('/logout', function(req,res){
+    req.session.destroy()
+    req.session = 0;
+    res.redirect('/')
+})
+.get('/user_profile/:id', function(req,res){
+    con.query('SELECT * FROM users WHERE id = ?', [req.params.id], function (err, result) { if (err) throw err 
+    res.render('public_profile.ejs', {req: req, css: css, profile: result[0] }) })
+})
 .get('/register', function(req,res){
     res.render('register.ejs', {req: req, css: css, error: 'none'})
 })
@@ -85,13 +120,8 @@ server.get('/', function(req,res){
     else 
         res.render('profile.ejs', {req: req, css: css, error: 'none', profile: req.session.profile})
 })
-.get('/logout', function(req,res){
-    req.session.destroy()
-    req.session = 0;
-    res.redirect('/')
-})
 .get('/public_profile', function(req,res){
-   res.render('public_profile.ejs', {req: req, css: css, profile: req.session.profile}) //faudra changer req.session.profile pour le profile de l'utilisateur selectionné
+   res.render('public_profile.ejs', {req: req, css: css, profile: req.session.profile})
 })
 .post('/register', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/register.js")+'')
@@ -113,4 +143,7 @@ server.get('/', function(req,res){
 })
 .get('/confirm', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/confirm.js")+'')
+ })
+.get('/seed', urlencodedParser, function(req,res){
+    eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
  })

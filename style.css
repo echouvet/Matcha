@@ -9,7 +9,6 @@ body
 	margin-left: -8px;
 	margin-right: 102px;
  	margin-top:-8px;
-	/*background-color: grey;*/
 	display: inline;
 	width: 100vw;
 	height: 15vmin;
@@ -450,7 +449,28 @@ left: 15px !important;
     width:60vw;
     border:1px solid black;
     box-shadow: 5px 5px 5px black;
-
 }
-
+.peerbox
+{
+	margin-left:5vw;
+	width:85vw;
+	height:75vh;
+	position:absolute;
+	overflow-y:auto;
+	display:flex;
+	flex-wrap: wrap;
+	overflow-x:none;
+}
+.peer
+{
+	margin-left:10px;
+	height:200px;
+	width:200px;
+	color:black;
+}
+.peerimg
+{
+	width:150px;
+	height:100px;
+}
 </style>
