@@ -27,6 +27,16 @@ function makelastname() {
   return text;
 }
 
+function maketag() {
+  var text = "";
+  var possible = "abcdef";
+
+  for (var i = 0; i < 3; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 var i = 0
 	pass = '$2a$10$fXJ03NwABaEi4HLQhWiGpOhdbpcTEo93DvY0UBAJlbyhpdvPkXnzu' // Fakeuser42
 	confirm = 1
@@ -34,7 +44,7 @@ while (i < 600) {
 	var login = 'FakeUser' + i
 		email = 'fakeuser' + i + '@gmail.com'
 		bio = 'La belle bio du FakeUser' + i
-		score = i
+		score = getRandomInt(1000)
 		location = 'La vrai location du FakeUser' + i
 		fakelocation = 'La fakelocation du FakeUser' + i
 		key = 'Key'+ i
@@ -100,10 +110,11 @@ while (i < 600) {
 	 score, location, fakelocation, showlocation, img1, img2, img3, img4, img5, longitude, latitude], function (err, result) { if (err) throw err })
 
 	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
-	con.query(sql, [login, i], function (err, result) { if (err) throw err })
-	var tag = 'tag' + i
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
 	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
-	con.query(sql, [tag, i], function (err, result) { if (err) throw err })
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
 	i++
 }
 res.render('index.ejs', {req: req, css: css})

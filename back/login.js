@@ -7,7 +7,6 @@ var table = JSON.parse(req.body.table)
     req.session.profile.location = location
     req.session.profile.longitude = table.longitude
     req.session.profile.latitude = table.latitude
-   // console.log(table)
 }
 else if (req.body.login && req.body.pass)
 {

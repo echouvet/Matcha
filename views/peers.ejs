@@ -9,21 +9,34 @@
 <% include header.ejs %>
 <!-- faudra mettre la barre de recherche avec des filtres ici -->
 <input type="button" value="Show Filters" onclick="showFiltres()" class="buttonfiltres"/>
-<div class="filtres" id="filtres">
+<div class="filtres" id="filtres" style="display:none;">
 	<form action="/peers" method="post">
 		 <div class="filtre_option">
-		 	<label class="minititle"> Age : </label><label>Between <input  style="width: 40px;" class="profilebox" type="number" value="18" name="agemin"> and <input  style="width: 40px;" type="number" class="profilebox" value="30" name="agemax"> Years Old.</label>
+		 	<label class="minititle"> Age : </label><label>Between <input  style="width: 40px;" class="profilebox" type="number" name="agemin"> and <input  style="width: 40px;" type="number" class="profilebox" name="agemax"> Years Old.</label>
 		 </div>
 		 <div class="filtre_option">
-		 	<label class="minititle"> Score : </label><label>Between <input  style="width: 40px;" class="profilebox" type="number" value="0" name="scoremin"> and <input  style="width: 40px;" type="number" class="profilebox" value="10000" name="scoremax"> .</label>
+		 	<label class="minititle"> Score : </label><label>Between <input  style="width: 40px;" class="profilebox" type="number" name="scoremin"> and <input  style="width: 40px;" type="number" class="profilebox" name="scoremax"> .</label>
 		 </div>
 		 <div class="filtre_option">
-		 	<label class="minititle"> Localisation : </label><label>Maximum <input  style="width: 40px;" class="profilebox" type="number" value="0"> km.</label>
+		 	<label class="minititle"> Localisation : </label><label>Maximum <input  style="width: 40px;" class="profilebox" type="number" name="distance"> km.</label>
 		 </div>
 		 <div class="filtre_option">
 		 	<label class="minititle"> Tags : </label><textarea class="profilebox" type="text" placeholder="(separate by ';')"></textarea>
 		 </div><br/>
-		 <input type="submit" value="Refresh Filters" class="buttonfiltres"/>
+		 <input type="submit" value="Set Filters" class="buttonfiltres"/>
+	</form>
+</div>
+<div class="sort">
+	<form action="/peers" method="post">
+		<label>Sort by : </label>
+		<select class="profilebox" name="tri" style="width: 80px">
+				<option>None</option>
+	            <option>Age</option>
+	            <option>Score</option>
+	            <option>Location</option>
+	            <option>Tags</option>
+	    </select>
+	    <input type="submit" name="submitri" value="Set">
 	</form>
 </div>
 <div class='peerbox'>
@@ -31,8 +44,9 @@
 	<a class="peer white2" href='<%-'/user_profile/' + peer[i].id %>' style="text-decoration:none">
 		<p><b><%-peer[i].login%></b> </p>
 		<img src='<%- peer[i].img1 %>' class=peerimg>
-		<p><%-' ' + peer[i].firstname + ' ' + peer[i].lastname%> </p>
-		<p> <%-' ' + peer[i].gender  + '  ' + peer[i].orientation + '  Age: ' + peer[i].age%> </p> 
+		<p><%- peer[i].firstname + ' ' + peer[i].lastname%> </p>
+		<p> <%- peer[i].gender  + ' | ' + peer[i].orientation %><br/><i><%- '  Age: ' + peer[i].age%></i><br/>
+		<%- 'Score : ' + peer[i].score + ' | ' + parseInt(peer[i].distance, 10) + ' km' %> </p>
 	</a>
 	<% i++; } %>
 </div>

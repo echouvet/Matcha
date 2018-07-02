@@ -485,11 +485,20 @@ left: 15px !important;
 
 .buttonfiltres
 {
-	background-color: rgba(134,134,134,0.6);
+	background-color: rgba(134,134,134,1);
 	margin-left:4vw;
 	height: 30px;
 	border-radius: 10px;
 	font-size: 15px;
+}
+
+.sort
+{
+	padding: 5px;
+	border-radius: 10px;
+	background-color: rgba(134,134,134,0.6);
+	margin-left:9vw;
+	display: inline-block;
 }
 
 .peerbox
@@ -505,7 +514,7 @@ left: 15px !important;
 {
 	text-align: center;
 	margin: 5px 5px 5px 5px;
-	height:250px;
+	height:270px;
 	width:200px;
 	color:black;
 }

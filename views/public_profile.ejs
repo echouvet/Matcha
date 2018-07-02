@@ -50,8 +50,10 @@
 	<% var point1 = new geopoint(req.session.profile.latitude, req.session.profile.longitude) 
 		point2 =  new geopoint(profile.latitude, profile.longitude)
 		distance = point1.distanceTo(point2, true)
+		if (!distance)
+			distance = '0';
 	%>
-	Distance : <%- parseInt(distance, 10) %> km
+	Distance : <%- parseInt(distance, 10)%> km
 	</i></p>
 </div>
 

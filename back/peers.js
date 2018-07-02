@@ -1,8 +1,28 @@
-function ascending(first, second)
+function ascendingdist(first, second)
 {
     if (first.distance == second.distance)
         return 0;
     if (first.distance < second.distance)
+        return -1;
+    else
+        return 1; 
+}
+
+function ascendingscore(first, second)
+{
+    if (first.score == second.score)
+        return 0;
+    if (first.score > second.score)
+        return -1;
+    else
+        return 1; 
+}
+
+function triage(first, second)
+{
+    if (first.age == second.age)
+        return 0;
+    if (first.age < second.age)
         return -1;
     else
         return 1; 
@@ -18,7 +38,7 @@ function sortdistance(result)
         result[i].distance = mypoint.distanceTo(point2, true)
         i++;
     }
-    return(result.sort(ascending))
+    return(result.sort(ascendingdist))
 }
 
 function profilevalidate(req, res, css, p)
@@ -99,7 +119,30 @@ else if (profilevalidate(req, res, css, req.session.profile) == false)
 else
 {
     gender_orientation(req.session.profile.orientation, req.session.profile.gender, function(result) {
-        result = sortdistance(result)
+        if (req.body.tri == "Age")
+        {
+            result = result.sort(triage)
+        }
+        else if (req.body.tri == "Location")
+        {
+            result = sortdistance(result)
+        }
+        else if (req.body.tri == "Score")
+        {
+            result = result.sort(ascendingscore)
+        }
+        else if (req.body.tri == "Tags")
+        {
+            //tags ici
+        }
+        else
+        {
+            result = result.sort(ascendingscore)
+            result = result.sort(triage)
+            //tags ici
+            result = sortdistance(result)
+        }
+
         if (req.body.agemax)
         {
             result = result.filter(function(val, i, result) {
@@ -122,6 +165,12 @@ else
         {
             result = result.filter(function(val, i, result) {
                 return (val.score >= req.body.scoremin);
+            });
+        }
+        if (req.body.distance)
+        {
+            result = result.filter(function(val, i, result) {
+                return (val.distance <= req.body.distance);
             });
         }
        res.render('peers.ejs', {req: req, peer: result, css: css})
