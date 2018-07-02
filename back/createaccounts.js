@@ -1,6 +1,33 @@
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function makefirstname() {
+  var text = "";
+  var possible = "abcdefghijklmnopqrstuvwxyz";
+  var possible1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  for (var i = 0; i < 5; i++)
+  {
+  	if (i == 0)
+    	text += possible1.charAt(Math.floor(Math.random() * possible.length));
+    else
+    	text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
+
+function makelastname() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 var i = 0
-	firstname = 'FakeUserFirstName'
-	lastname = 'FakeUserLadtName'
 	pass = '$2a$10$fXJ03NwABaEi4HLQhWiGpOhdbpcTEo93DvY0UBAJlbyhpdvPkXnzu' // Fakeuser42
 	confirm = 1
 while (i < 600) {
@@ -11,23 +38,31 @@ while (i < 600) {
 		location = 'La vrai location du FakeUser' + i
 		fakelocation = 'La fakelocation du FakeUser' + i
 		key = 'Key'+ i
-	if (i % 2 == 0)
+		age = i % 51
+		longitude = i % 90
+		latitude = i % 90
+		quelgenre = getRandomInt(2)
+		quelorientation = getRandomInt(3)
+		isshowloc = getRandomInt(2)
+		firstname = makefirstname();
+		lastname = makelastname();
+
+	if (quelgenre == 0)
 		gender = 'Male'
 	else
 		gender = 'Female'
-	if (i % 3 == 0) {
-		var showlocation = 0
-			age = 22
+	if (isshowloc == 0)
+		showlocation = 0
+	else
+		showlocation = 1
+
+	if (quelorientation == 0) {
 			orientation = 'Heterosexual'
 	}
-	else if (i % 3 == 1) {
-		var showlocation = 1
-			age = 21
+	else if (quelorientation == 1) {
 			orientation = 'Bisexual'
 	}
 	else {
-		var showlocation = 1
-			age = 23
 			orientation = 'Homosexual'
 	}
 	if (i % 4 == 0) {
@@ -45,8 +80,8 @@ while (i < 600) {
 			img5 = '/seed/10.jpg'
 	}
 	else if (i % 4 == 2) {
-		var img1 = '/seed/11.png'
-			img2 = '/seed/12.jpg'
+		var img1 = '/seed/11.jpg'
+			img2 = '/seed/12.png'
 			img3 = '/seed/13.jpg'
 			img4 = '/seed/14.jpg'
 			img5 = '/seed/15.png'
@@ -58,8 +93,12 @@ while (i < 600) {
 			img4 = '/seed/19.jpg'
 			img5 = '/seed/20.jpg'
 	}
-	sql = 'INSERT INTO `users` (`login`, `firstname`, `lastname`, `pass`, `email`, `confirmkey`, `confirm`, `gender`, `orientation`, `bio`, `age`, `score`, `location`, `fakelocation`, `showlocation`, `img1`, `img2`, `img3`, `img4`, `img5`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-	con.query(sql, [login, firstname, lastname, pass, email, key, confirm, gender, orientation, bio, age, score, location, fakelocation, showlocation, img1, img2, img3, img4, img5], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `users` (`login`, `firstname`, `lastname`, `pass`, `email`, `confirmkey`, `confirm`, `gender`,\
+	 `orientation`, `bio`, `age`, `score`, `location`, `fakelocation`, `showlocation`, `img1`, `img2`, `img3`, `img4`, `img5`, `longitude`, `latitude`)\
+	  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+	con.query(sql, [login, firstname, lastname, pass, email, key, confirm, gender, orientation, bio, age,
+	 score, location, fakelocation, showlocation, img1, img2, img3, img4, img5, longitude, latitude], function (err, result) { if (err) throw err })
+
 	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
 	con.query(sql, [login, i], function (err, result) { if (err) throw err })
 	var tag = 'tag' + i

@@ -46,6 +46,12 @@
 	<% } else if(typeof profile && profile.showlocation === 0 && profile.fakelocation != '' && profile.fakelocation != ' ') { %> 
 	<p style="text-align: center;"><strong>Location:</strong><br/><br/><i> <%- profile.fakelocation %><br/></i>
 	<% } %>
+	<br/>
+	<% var point1 = new geopoint(req.session.profile.latitude, req.session.profile.longitude) 
+		point2 =  new geopoint(profile.latitude, profile.longitude)
+		distance = point1.distanceTo(point2, true)
+	%>
+	Distance : <%- parseInt(distance, 10) %> km
 	</i></p>
 </div>
 

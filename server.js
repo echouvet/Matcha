@@ -14,6 +14,7 @@ var express = require('express')
     vm = require('vm')
     ssn = require('express-session')
     formidable = require('formidable')
+    geopoint = require('geopoint');
 
 // others
 var server = express()
@@ -43,6 +44,8 @@ con.connect(function(err) { if (err) throw err
         bio TEXT, \
         age INT DEFAULT 0, \
         score INT DEFAULT 0, \
+        longitude DOUBLE, \
+        latitude DOUBLE, \
         location TEXT, \
         fakelocation TEXT, \
         showlocation INT DEFAULT 1, \
@@ -64,31 +67,8 @@ server.use(ssn({ secret: 'Eloi has a beautiful secret', resave: true, saveUninit
 server.use(bodyParser.urlencoded({ extended: true }))
 server.listen(8080)
 
-function profilevalidate(req, res, css, p)
-{
-    if (p.confirm !== 1)
-    {
-        res.render('login.ejs', {req: req, css: css, error: 'Please confirm your accont by email'})
-        return false
-    }
-    else if (!p.gender || !p.orientation || !p.bio || !p.age || p.img1 == 'empty.png')
-    {
-        res.render('profile.ejs', {req: req, css: css, error: 'Please complete your profile before choosing your peer', profile: p})
-        return false
-    }
-    else
-        return true
-}
 server.get('/', function(req,res){
-    if (req.session.profile == undefined)
-        res.render('index.ejs', {req: req, css: css})
-    else if (profilevalidate(req, res, css, req.session.profile) == false)
-        return ;
-    else
-    {
-        con.query('SELECT * FROM users', function (err, result) { if (err) throw err 
-        res.render('peers.ejs', {req: req, peer: result, css: css}) })
-    }
+     eval(fs.readFileSync(__dirname + "/back/peers.js")+'')    
 })
 .get('/peers', function(req, res) {
     res.redirect('/')
@@ -123,6 +103,9 @@ server.get('/', function(req,res){
 })
 .get('/public_profile', function(req,res){
    res.render('public_profile.ejs', {req: req, css: css, profile: req.session.profile, tag: req.session.profile.tag})
+})
+.post('/peers', function(req, res) {
+    eval(fs.readFileSync(__dirname + "/back/peers.js")+'')
 })
 .post('/register', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/register.js")+'')

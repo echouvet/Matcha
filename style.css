@@ -403,6 +403,13 @@ left: 15px !important;
     border:1px solid black;
     border-radius: 10px;
 }
+.white2
+{
+    padding:10px;
+    background-color: rgba(230,230,230,0.8);
+    border:1px solid black;
+    border-radius: 10px;
+}
 .img
 {
     width:30vw;
@@ -421,6 +428,7 @@ left: 15px !important;
 {
 	color:white;
 }
+
 
 .glob
 {
@@ -450,26 +458,62 @@ left: 15px !important;
     border:1px solid black;
     box-shadow: 5px 5px 5px black;
 }
+
+.filtres
+{
+	text-align: center;
+	padding: 5px;
+	margin-left:5vw;
+	width: 85vw;
+}
+
+.filtre_option
+{
+    background-color: rgba(244,244,244,0.6);
+    padding: 12px;
+    border-radius: 8px;
+	display: inline-grid;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.minititle
+{
+	margin-bottom: 10px;
+	font-size: 25px;
+}
+
+.buttonfiltres
+{
+	background-color: rgba(134,134,134,0.6);
+	margin-left:4vw;
+	height: 30px;
+	border-radius: 10px;
+	font-size: 15px;
+}
+
 .peerbox
 {
+	justify-content: center;
 	margin-left:5vw;
 	width:85vw;
-	height:75vh;
-	position:absolute;
-	overflow-y:auto;
 	display:flex;
 	flex-wrap: wrap;
 	overflow-x:none;
 }
 .peer
 {
-	margin-left:10px;
-	height:200px;
+	text-align: center;
+	margin: 5px 5px 5px 5px;
+	height:250px;
 	width:200px;
 	color:black;
 }
 .peerimg
 {
+	border: 1px solid black;
+	box-shadow: 0px 0px 5px 5px black;
+	border-radius: 2px;
 	width:150px;
 	height:100px;
 }

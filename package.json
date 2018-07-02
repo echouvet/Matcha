@@ -12,6 +12,7 @@
         "express-session": "^1.15.6",
         "formidable": "^1.2.1",
         "fs": "0.0.1-security",
+        "geopoint": "^1.0.1",
         "html": "^1.0.0",
         "htmlspecialchars": "^1.0.5",
         "mysql": "^2.15.0",
