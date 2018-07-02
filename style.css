@@ -192,6 +192,16 @@ body
 	margin-top: 7px;
 }
 
+.tribox
+{
+	width: 4vw;
+	height: 1.5vw;
+	border-radius: 10px;
+	box-shadow: 1px 1px 1px;
+	margin-bottom: 7px;
+	margin-top: 7px;
+}
+
 .profilebutton
 {
 	width: 110px;
@@ -410,6 +420,11 @@ left: 15px !important;
     border:1px solid black;
     border-radius: 10px;
 }
+.white3
+{
+    background-color: rgba(171,171,171,0.8);
+    border-radius: 10px;
+}
 .img
 {
     width:30vw;
@@ -462,9 +477,8 @@ left: 15px !important;
 .filtres
 {
 	text-align: center;
-	padding: 5px;
-	margin-left:5vw;
-	width: 85vw;
+	padding: 0px;
+	width: 100vw;
 }
 
 .filtre_option
@@ -480,13 +494,20 @@ left: 15px !important;
 .minititle
 {
 	margin-bottom: 10px;
-	font-size: 25px;
+	font-size: 2vw;
+}
+
+.labeltri
+{
+	font-size: 1.5vw;
 }
 
 .buttonfiltres
 {
 	background-color: rgba(134,134,134,1);
-	margin-left:4vw;
+	margin-left:1vw;
+	margin-top:1vw;
+	margin-bottom:1vw;
 	height: 30px;
 	border-radius: 10px;
 	font-size: 15px;
@@ -499,6 +520,7 @@ left: 15px !important;
 	background-color: rgba(134,134,134,0.6);
 	margin-left:9vw;
 	display: inline-block;
+	margin-bottom: 10px;
 }
 
 .peerbox
@@ -514,7 +536,7 @@ left: 15px !important;
 {
 	text-align: center;
 	margin: 5px 5px 5px 5px;
-	height:270px;
+	height:290px;
 	width:200px;
 	color:black;
 }
@@ -526,4 +548,5 @@ left: 15px !important;
 	width:150px;
 	height:100px;
 }
+
 </style>

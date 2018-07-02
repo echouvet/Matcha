@@ -69,6 +69,57 @@ function    lookingfor(gender, orientation1, orientation2, myid, callback)
         return callback(result);
     }) })
 }
+function    settags(result, callback)
+{
+    con.query('SELECT * FROM tags', function(err, tag) { if (err) throw err; 
+        var i = 0;
+            tags = new Array();
+        while (result[i])
+        {
+            var onetag = tag.filter(function(val, a, tag) {return (val.user_id == result[i].id)})
+            result[i].tags = onetag
+            i++;
+        }
+        return (callback(result))
+    })
+}
+function descendingtags(first, second)
+{
+    if (first.scoretag == second.scoretag)
+        return 0;
+    if (first.scoretag > second.scoretag)
+        return -1;
+    else
+        return 1; 
+}
+function    tritags(profile, result)
+{
+    i = 0
+    while (result[i])
+    {
+        result[i].scoretag = 0
+        var a = 0;
+        while(profile.tag[a])
+        {
+            var e = 0;
+            while (result[i].tags[e])
+            {
+                if (result[i].tags[e].tag == profile.tag[a].tag)
+                    result[i].scoretag++;
+                e++;
+            }
+            a++;
+        }
+        console.log(result[i].scoretag)
+    console.log(result[i].tags)
+
+        i++;
+    }
+    result = result.sort(descendingtags)
+
+    return (result);
+}
+
 function    gender_orientation(orientation, gender, callback)
 {
     if (orientation == 'Heterosexual')
@@ -118,29 +169,23 @@ else if (profilevalidate(req, res, css, req.session.profile) == false)
      ;
 else
 {
-    gender_orientation(req.session.profile.orientation, req.session.profile.gender, function(result) {
+   gender_orientation(req.session.profile.orientation, req.session.profile.gender, function(result_1) {
+        settags(result_1, function(result) {
+        result = sortdistance(result)
         if (req.body.tri == "Age")
-        {
             result = result.sort(triage)
-        }
         else if (req.body.tri == "Location")
-        {
-            result = sortdistance(result)
-        }
+            ;
         else if (req.body.tri == "Score")
-        {
             result = result.sort(ascendingscore)
-        }
         else if (req.body.tri == "Tags")
-        {
-            //tags ici
-        }
+            tritags(req.session.profile, result)
         else
         {
             result = result.sort(ascendingscore)
             result = result.sort(triage)
-            //tags ici
             result = sortdistance(result)
+            tritags(req.session.profile, result)
         }
 
         if (req.body.agemax)
@@ -173,7 +218,16 @@ else
                 return (val.distance <= req.body.distance);
             });
         }
+        if (req.body.tags)
+        {
+            var tags = eschtml(req.body.tags)
+            var tabtags = tags.split(";")
+            console.log(tabtags)
+            // result = result.filter(function(val, i, result) {
+                // return (val.tags == req.body.distance);
+            // });
+        }
        res.render('peers.ejs', {req: req, peer: result, css: css})
-    });
+    }) });
 }
         

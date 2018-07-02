@@ -115,6 +115,18 @@ while (i < 600) {
 	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
 	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
 	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
+	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
 	i++
 }
 res.render('index.ejs', {req: req, css: css})
