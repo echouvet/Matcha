@@ -78,7 +78,8 @@ con.connect(function(err) { if (err) throw err
         id INT AUTO_INCREMENT PRIMARY KEY, \
         user_id INT NOT NULL, \ 
         his_id INT NOT NULL)`
-    con.query(report, function (err) { if (err) throw err }) 
+    con.query(report, function (err) { if (err) throw err })
+
 })
 
 server.use(express.static(__dirname + '/img'))
@@ -114,6 +115,9 @@ server.get('/', function(req,res){
 })
 .get('/register', function(req,res){
     res.render('register.ejs', {req: req, css: css, error: 'none'})
+})
+.get('/matchs', function(req,res){
+   eval(fs.readFileSync(__dirname + "/back/matchs.js")+'')
 })
 .get('/profile', function(req,res){
     if (req.session.profile == undefined)

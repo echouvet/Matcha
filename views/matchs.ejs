@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8" />
+    <title>Your matchs</title>
+     <%- css.style %>
+</head> 
+<body id="pageprofil">
+<% include header.ejs %>
+<div class="matchs">
+	<% i = 0;
+	while (match[i]) { %>
+		<a class="" href='<%-'/user_profile/' + match[i].id %>' style="text-decoration:none">
+		<p><b><%-match[i].login%></b> </p>
+		<img src='<%- match[i].img1 %>' class=peerimg>
+		<p><%- match[i].firstname %><br/><%- match[i].lastname%> </p>
+		<p> <%- match[i].gender  + ' | ' + match[i].orientation %><br/><i><%- '  Age: ' + match[i].age%></i><br/>
+		<%- 'Score : ' + match[i].score %> </p>
+		</a>
+		<%  i++ } %>
+</div>
+</body>

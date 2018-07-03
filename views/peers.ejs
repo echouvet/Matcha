@@ -45,6 +45,8 @@
 		<p><%- peer[i].firstname + ' ' + peer[i].lastname%> </p>
 		<p> <%- peer[i].gender  + ' | ' + peer[i].orientation %><br/><i><%- '  Age: ' + peer[i].age%></i><br/>
 		<%- 'Commun Tags : ' + peer[i].scoretag %><br/>
+		<% if (!peer[i].distance)
+			peer[i].distance = '0'; %>
 		<%- 'Score : ' + peer[i].score + ' | ' + parseInt(peer[i].distance, 10) + ' km' %> </p>
 	</a>
 	<% i++; } %>

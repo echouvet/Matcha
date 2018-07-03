@@ -186,6 +186,7 @@ else
    gender_orientation(req.session.profile.orientation, req.session.profile.gender, function(result_1) {
         result_1 = userprofilevalidate(result_1)
         settags(result_1, function(result) {
+        tritags(req.session.profile, result)
         sortdistance(result)
         if (req.body.tri == "Age")
             result = result.sort(triage)

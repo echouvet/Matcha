@@ -78,8 +78,11 @@
 	</i></p>
 </div>
 <script>
-	<% if (like == -1 || like == 1 || like == 3) { %>
+	<% if (like == 1 || like == 3) { %>
 		document.getElementById("like").disabled = "disabled";
+	<% } else if (like == -1) { %>
+		document.getElementById("like").disabled = "disabled";
+		document.getElementById("dislike").disabled = "disabled";
 	<% } else { %>
 		document.getElementById("dislike").disabled = "disabled";
 	<% } %>
