@@ -3,21 +3,26 @@
     <meta charset="utf-8" />
     <title>Your Profile</title>
      <%- css.style %>
-</head>
+</head> 
 <body id="pageprofil">
 <% include header.ejs %>
-<div class='left grey'>
+<div class='left grey'> 
 	<img class=img src="../<%- profile.img2 %>"><BR \>
 	<img class=img src="../<%- profile.img3 %>"><BR \>
 	<img class=img src="../<%- profile.img4 %>"><BR \>
-	<img class=img src="../<%- profile.img5 %>"><BR \>
+	<img class=img src="../<%- profile.img5 %>"><BR \> <!-- 0 = personne | 1 = moi like | 2 = lui like | 3 = match -->
 </div>
 <div class='grey public'>
 	<h1 style="text-align: center;"><%- profile.firstname %>  <%- profile.lastname %>'s Profile</h1>
 	<HR /><br/>
 <div class="photoprincipale">
 	<img class="img img1" src="<%- profile.img1 %>"><BR \>
+	<form action="/public_profile" method="post">
+		<input type="image" class="imglike <% if (like == -1 || like == 1 || like == 3) { %> grayscale <% } %>" src="like.png">
+		<input type="image" class="imglike <% if (like == -1 || like == 0 || like == 2) { %> grayscale <% } %>" src="dislike.png">
+	</form>
 </div>
+
 	<br/>
 	<HR /><br/>
 	<div class="glob">

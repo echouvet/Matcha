@@ -40,6 +40,7 @@ function maketag() {
 var i = 0
 	pass = '$2a$10$fXJ03NwABaEi4HLQhWiGpOhdbpcTEo93DvY0UBAJlbyhpdvPkXnzu' // Fakeuser42
 	confirm = 1
+	
 while (i < 600) {
 	var login = 'FakeUser' + i
 		email = 'fakeuser' + i + '@gmail.com'
@@ -57,6 +58,7 @@ while (i < 600) {
 		firstname = makefirstname();
 		lastname = makelastname();
 
+		
 	if (quelgenre == 0)
 		gender = 'Male'
 	else

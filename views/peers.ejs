@@ -43,9 +43,9 @@
 		<p><b><%-peer[i].login%></b> </p>
 		<img src='<%- peer[i].img1 %>' class=peerimg>
 		<p><%- peer[i].firstname + ' ' + peer[i].lastname%> </p>
-		<div class="white3"><p> <%- peer[i].gender  + ' | ' + peer[i].orientation %><br/><i><%- '  Age: ' + peer[i].age%></i><br/>
+		<p> <%- peer[i].gender  + ' | ' + peer[i].orientation %><br/><i><%- '  Age: ' + peer[i].age%></i><br/>
 		<%- 'Commun Tags : ' + peer[i].scoretag %><br/>
-		<%- 'Score : ' + peer[i].score + ' | ' + parseInt(peer[i].distance, 10) + ' km' %> </p></div>
+		<%- 'Score : ' + peer[i].score + ' | ' + parseInt(peer[i].distance, 10) + ' km' %> </p>
 	</a>
 	<% i++; } %>
 </div>

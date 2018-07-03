@@ -57,6 +57,23 @@ function profilevalidate(req, res, css, p)
         return true
 }
 
+function    userprofilevalidate(result)
+{
+    var i = 0;
+    while (result[i])
+    {
+        if (result[i].confirm !== 1)
+            result[i].valid = 0;
+        else if (!result[i].gender || !result[i].orientation || !result[i].bio || !result[i].age || result[i].img1 == 'empty.png')
+            result[i].valid = 0;
+        else
+            result[i].valid = 1;
+        i++;
+    }
+    result = result.filter(function(val, a, result) {return (val.valid == 1)})
+    return (result);
+}
+
 function    lookingfor(gender, orientation1, orientation2, myid, callback)
 {
     sql = 'SELECT * FROM users WHERE orientation = ? AND gender = ? AND id <> ?';
@@ -110,9 +127,6 @@ function    tritags(profile, result)
             }
             a++;
         }
-        console.log(result[i].scoretag)
-    console.log(result[i].tags)
-
         i++;
     }
     result = result.sort(descendingtags)
@@ -170,8 +184,9 @@ else if (profilevalidate(req, res, css, req.session.profile) == false)
 else
 {
    gender_orientation(req.session.profile.orientation, req.session.profile.gender, function(result_1) {
+        result_1 = userprofilevalidate(result_1)
         settags(result_1, function(result) {
-        result = sortdistance(result)
+        sortdistance(result)
         if (req.body.tri == "Age")
             result = result.sort(triage)
         else if (req.body.tri == "Location")
@@ -180,14 +195,6 @@ else
             result = result.sort(ascendingscore)
         else if (req.body.tri == "Tags")
             tritags(req.session.profile, result)
-        else
-        {
-            result = result.sort(ascendingscore)
-            result = result.sort(triage)
-            result = sortdistance(result)
-            tritags(req.session.profile, result)
-        }
-
         if (req.body.agemax)
         {
             result = result.filter(function(val, i, result) {
@@ -221,11 +228,26 @@ else
         if (req.body.tags)
         {
             var tags = eschtml(req.body.tags)
-            var tabtags = tags.split(";")
-            console.log(tabtags)
-            // result = result.filter(function(val, i, result) {
-                // return (val.tags == req.body.distance);
-            // });
+                tabtags = tags.split(";")
+            result = result.filter(function(val, i, result) {
+                var nbtagmatch = 0
+                    j = 0
+                while (tabtags[j])
+                {
+                    var e = 0
+                    while (val.tags[e])
+                    {
+                        if (tabtags[j] == val.tags[e].tag)
+                            nbtagmatch++
+                        e++
+                    }
+                    j++
+                }
+                if (nbtagmatch >= j)
+                    return (true)
+                else
+                    return (false)
+            });
         }
        res.render('peers.ejs', {req: req, peer: result, css: css})
     }) });

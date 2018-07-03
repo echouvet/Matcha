@@ -420,11 +420,7 @@ left: 15px !important;
     border:1px solid black;
     border-radius: 10px;
 }
-.white3
-{
-    background-color: rgba(171,171,171,0.8);
-    border-radius: 10px;
-}
+
 .img
 {
     width:30vw;
@@ -444,6 +440,16 @@ left: 15px !important;
 	color:white;
 }
 
+.imglike
+{
+	margin-top: 1vw;
+    width: 10vw;
+}
+
+.grayscale
+{
+	filter: grayscale(100%);
+}
 
 .glob
 {

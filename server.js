@@ -60,7 +60,14 @@ con.connect(function(err) { if (err) throw err
         id INT AUTO_INCREMENT PRIMARY KEY, \
         user_id INT, \
         tag VARCHAR(255))`
-    con.query(tags, function (err, res) { if (err) throw err }) })
+    con.query(tags, function (err, res) { if (err) throw err }) 
+    
+    var likes = `CREATE TABLE IF NOT EXISTS likes (\
+        id INT AUTO_INCREMENT PRIMARY KEY, \
+        user_id INT NOT NULL, \ 
+        like_id INT NOT NULL)`
+    con.query(likes, function (err, res) { if (err) throw err }) 
+})
 
 server.use(express.static(__dirname + '/img'))
 server.use(ssn({ secret: 'Eloi has a beautiful secret', resave: true, saveUninitialized: true }))
@@ -88,9 +95,7 @@ server.get('/', function(req,res){
     res.redirect('/')
 })
 .get('/user_profile/:id', function(req,res){
-    con.query('SELECT * FROM users WHERE id = ?', [req.params.id], function (err, result) { if (err) throw err 
-    con.query('SELECT * FROM tags WHERE user_id = ?', [req.params.id], function (err, resultag) { if (err) throw err 
-    res.render('public_profile.ejs', {req: req, css: css, profile: result[0], tag: resultag }) }) })
+    eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
 })
 .get('/register', function(req,res){
     res.render('register.ejs', {req: req, css: css, error: 'none'})
@@ -102,7 +107,7 @@ server.get('/', function(req,res){
         res.render('profile.ejs', {req: req, css: css, error: 'none', profile: req.session.profile})
 })
 .get('/public_profile', function(req,res){
-   res.render('public_profile.ejs', {req: req, css: css, profile: req.session.profile, tag: req.session.profile.tag})
+  res.render('public_profile.ejs', {req: req, like: -1, css: css, profile: req.session.profile, tag: req.session.profile.tag})
 })
 .post('/peers', function(req, res) {
     eval(fs.readFileSync(__dirname + "/back/peers.js")+'')
@@ -131,3 +136,6 @@ server.get('/', function(req,res){
 .get('/seed', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
  })
+.post('/public_profile', function(req, res) {
+    eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
+})
