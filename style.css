@@ -435,6 +435,24 @@ left: 15px !important;
 	border-radius: 5px;
 }
 
+.buttonsblock
+{
+	display: inline;
+}
+
+.buttonblock
+{
+	background-color: rgba(230,230,230,0.8);
+	float:left;
+	margin-right: 10px;
+	border-radius: 10px;
+}
+
+.redbutton
+{
+	background-color: rgba(255,56,56,0.8);
+}
+
 #white
 {
 	color:white;
@@ -449,6 +467,12 @@ left: 15px !important;
 .grayscale
 {
 	filter: grayscale(100%);
+}
+
+.msgpeer
+{
+	font-size: 2vw;
+	margin-bottom: 0px;
 }
 
 .glob

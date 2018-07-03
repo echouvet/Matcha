@@ -13,13 +13,29 @@
 	<img class=img src="../<%- profile.img5 %>"><BR \> <!-- 0 = personne | 1 = moi like | 2 = lui like | 3 = match -->
 </div>
 <div class='grey public'>
+	<% if (like != -1) { %>
+	<div class="buttonsblock">
+	<form action="/public_profile/<%- profile.id %>" method="post">
+		<input type="submit" name="block" value="Block" class="buttonblock 
+		<% if (block == 1) { %> redbutton <% } %>">
+	</form>
+	<form action="/public_profile/<%- profile.id %>" method="post">
+		<input type="submit" name="report" value="Report as fake" class="buttonblock <% if (report == 1) { %> redbutton <% } %>">
+	</form>
+	</div><% } %>
 	<h1 style="text-align: center;"><%- profile.firstname %>  <%- profile.lastname %>'s Profile</h1>
 	<HR /><br/>
 <div class="photoprincipale">
 	<img class="img img1" src="<%- profile.img1 %>"><BR \>
+	<% if (like == 2) { %>
+		<p class="msgpeer"><i><b> This peer likes you ! </b></i></p>
+	<% } %>
+	<% if (like == 3) { %>
+		<p class="msgpeer"><i><b> It's a match ! </b></i></p>
+	<% } %>
 	<form action="/public_profile/<%- profile.id %>" method="post">
-		<input type="image" class="imglike <% if (like == -1 || like == 1 || like == 3) { %> grayscale <% } %>" src="../like.png">
-		<input type="image" class="imglike <% if (like == -1 || like == 0 || like == 2) { %> grayscale <% } %>" src="../dislike.png">
+		<input type="image" class="imglike <% if (like == -1 || like == 1 || like == 3) { %> grayscale <% } %>" src="../like.png" name="like" value="like" id="like">
+		<input type="image" class="imglike <% if (like == -1 || like == 0 || like == 2) { %> grayscale <% } %>" src="../dislike.png" name="dislike" value="dislike" id="dislike">
 	</form>
 </div>
 
@@ -61,5 +77,11 @@
 	Distance : <%- parseInt(distance, 10)%> km
 	</i></p>
 </div>
-
+<script>
+	<% if (like == -1 || like == 1 || like == 3) { %>
+		document.getElementById("like").disabled = "disabled";
+	<% } else { %>
+		document.getElementById("dislike").disabled = "disabled";
+	<% } %>
+</script>
 </body></html>
