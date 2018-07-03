@@ -17,9 +17,9 @@
 	<HR /><br/>
 <div class="photoprincipale">
 	<img class="img img1" src="<%- profile.img1 %>"><BR \>
-	<form action="/public_profile" method="post">
-		<input type="image" class="imglike <% if (like == -1 || like == 1 || like == 3) { %> grayscale <% } %>" src="like.png">
-		<input type="image" class="imglike <% if (like == -1 || like == 0 || like == 2) { %> grayscale <% } %>" src="dislike.png">
+	<form action="/public_profile/<%- profile.id %>" method="post">
+		<input type="image" class="imglike <% if (like == -1 || like == 1 || like == 3) { %> grayscale <% } %>" src="../like.png">
+		<input type="image" class="imglike <% if (like == -1 || like == 0 || like == 2) { %> grayscale <% } %>" src="../dislike.png">
 	</form>
 </div>
 

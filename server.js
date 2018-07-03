@@ -97,6 +97,9 @@ server.get('/', function(req,res){
 .get('/user_profile/:id', function(req,res){
     eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
 })
+.post('/public_profile/:id', function(req, res) {
+    eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
+})
 .get('/register', function(req,res){
     res.render('register.ejs', {req: req, css: css, error: 'none'})
 })
@@ -136,6 +139,3 @@ server.get('/', function(req,res){
 .get('/seed', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
  })
-.post('/public_profile', function(req, res) {
-    eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
-})
