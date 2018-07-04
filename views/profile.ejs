@@ -138,6 +138,30 @@
          %>
      </div>
     </div>
+<h2>History</h2>
+<div class="history">
+        <div class="hist">
+            <p class="titlehist"><i> Peers who have liked you : </i></p>
+            <div class="white">
+            <% if (like != 'none') {
+            i = 0; while (like[i]) { %>
+            <a href="<%-'/user_profile/' + like[i].id %>" class="peerhist">
+                <li><b><i><%- like[i].login %></b></i> <%- ' : ' + like[i].firstname + ' ' + like[i].lastname + ' | Age : ' + like[i].age + ' | Score : ' + like[i].score %></li>
+            </a><hr/>
+            <% i++ } } %></div>
+        </div>
+    <div class="hist">
+       <p class="titlehist"><i> Peers who have visited your profile : </i></p>
+        <div class="white">
+            <% if (visit != 'none') {
+            i = 0; while (visit[i]) { console.log(visit); %>
+            <a href="<%-'/user_profile/' + visit[i].id %>" class="peerhist">
+                <li><b><i><%- visit[i].login %></b></i><%- ' : ' + visit[i].date %></li>
+            </a><hr/>
+            <% i++ } } %> </div>
+     </div>
+    </div>
+
 </div>
 </body>
  </html>

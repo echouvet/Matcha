@@ -76,6 +76,8 @@ if (req.body.report)
 			deletefrom('report')
 	})
 }
+if ((req.session.profile.id != req.params.id) && !req.body.like && !req.body.dislike && !req.body.block && !req.body.report)
+	insertinto('visits')
 
 con.query('SELECT * FROM users WHERE id = ?', [req.params.id], function (err, result) { if (err) throw err
 con.query('SELECT * FROM tags WHERE user_id = ?', [req.params.id], function (err, resultag) { if (err) throw err 

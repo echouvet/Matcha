@@ -77,7 +77,15 @@ while (i < 600) {
 	else {
 			orientation = 'Homosexual'
 	}
-	if (i % 4 == 0) {
+
+	if (i % 30 == 0) {
+		var img1 = 'empty.png'
+			img2 = 'empty.png'
+			img3 = 'empty.png'
+			img4 = 'empty.png'
+			img5 = 'empty.png'
+	}
+	else if (i % 4 == 0) {
 		var img1 = '/seed/1.jpg'
 			img2 = '/seed/2.jpg'
 			img3 = '/seed/3.jpg'
@@ -129,6 +137,12 @@ while (i < 600) {
 	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
 	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
 	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
+
+	sql = 'INSERT INTO `visits` (user_id, his_id) VALUES (?,?)'
+	con.query(sql, [getRandomInt(600), getRandomInt(600)], function (err, result) { if (err) throw err })
+
+	sql = 'INSERT INTO `likes` (user_id, his_id) VALUES (?,?)'
+	con.query(sql, [getRandomInt(600), getRandomInt(600)], function (err, result) { if (err) throw err })
 	i++
 }
 res.render('index.ejs', {req: req, css: css})

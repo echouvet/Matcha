@@ -50,7 +50,7 @@ function profilevalidate(req, res, css, p)
     }
     else if (!p.gender || !p.orientation || !p.bio || !p.age || p.img1 == 'empty.png')
     {
-        res.render('profile.ejs', {req: req, css: css, error: 'Please complete your profile before choosing your peer', profile: p})
+        res.render('profile.ejs', {req: req, css: css, error: 'Please complete your profile before choosing your peer', profile: p, like: 'none', visit: 'none'})
         return false
     }
     else
@@ -74,6 +74,22 @@ function    userprofilevalidate(result)
     return (result);
 }
 
+function    blocked(result, myid, callback)
+{
+    con.query('SELECT * FROM `block` WHERE user_id = ?', [myid], function(err, block) { if (err) throw err;
+        var i = 0;
+        if (block.length > 0)
+        {
+            while (block[i])
+            {
+                result = result.filter(function(val, a, result){return (val.id != block[i].his_id)})
+                i++;
+            }
+        }
+        return callback(result)
+    })
+}
+
 function    lookingfor(gender, orientation1, orientation2, myid, callback)
 {
     sql = 'SELECT * FROM users WHERE orientation = ? AND gender = ? AND id <> ?';
@@ -83,9 +99,10 @@ function    lookingfor(gender, orientation1, orientation2, myid, callback)
         vars = [orientation2, gender, myid]
         con.query(sql, vars, function (err, result2) { if (err) throw err
         result = result.concat(result2)
-        return callback(result);
+        blocked(result, myid, function(result){ return callback(result); });
     }) })
 }
+
 function    settags(result, callback)
 {
     con.query('SELECT * FROM tags', function(err, tag) { if (err) throw err; 
