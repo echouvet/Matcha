@@ -14,17 +14,43 @@ var express = require('express')
     vm = require('vm')
     ssn = require('express-session')
     formidable = require('formidable')
-    geopoint = require('geopoint');
+    geopoint = require('geopoint')
+    http = require("http");
+
 
 // others
-var server = express()
+var app = express()
+    server = http.createServer(app);
+    io = require("socket.io").listen(server);
     urlencodedParser = bodyParser.urlencoded({ extended: false })
     css = { style : fs.readFileSync('./style.css','utf8') }
-    con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "root42"
-    })
+    MemoryStore = require('session-memory-store')(ssn);
+    
+    sessionMiddleware = ssn({
+        secret: "Eloi has a beautiful secret",
+        store: new MemoryStore(),
+        key: 'sid',
+        resave: true, 
+        saveUninitialized: true
+    });
+
+io.use(function(socket, next) {
+    sessionMiddleware(socket.request, socket.request.res, next);
+});
+
+app.use(sessionMiddleware);
+
+app.use(express.static(__dirname + '/img'))
+app.use(bodyParser.urlencoded({ extended: true }))
+
+
+server.listen(8080)
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "root42"
+})
 
 con.connect(function(err) { if (err) throw err
     con.query('CREATE DATABASE IF NOT EXISTS `matcha`', function (err) { if (err) throw err })
@@ -88,12 +114,7 @@ con.connect(function(err) { if (err) throw err
      con.query(visits, function (err) { if (err) throw err })
 })
 
-server.use(express.static(__dirname + '/img'))
-server.use(ssn({ secret: 'Eloi has a beautiful secret', resave: true, saveUninitialized: true }))
-server.use(bodyParser.urlencoded({ extended: true }))
-server.listen(8080)
-
-server.get('/', function(req,res){
+app.get('/', function(req,res){
      eval(fs.readFileSync(__dirname + "/back/peers.js")+'')    
 })
 .get('/peers', function(req, res) {
@@ -155,3 +176,9 @@ server.get('/', function(req,res){
 .get('/seed', urlencodedParser, function(req,res){
     eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
  })
+.get('/domatch', urlencodedParser, function(req,res){
+   eval(fs.readFileSync(__dirname + "/back/domorematchs.js")+'')
+})
+.get('/user_chat/:id', function(req,res){
+   eval(fs.readFileSync(__dirname + "/back/chat.js")+'')
+})

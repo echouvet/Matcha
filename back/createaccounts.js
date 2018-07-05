@@ -78,14 +78,7 @@ while (i < 600) {
 			orientation = 'Homosexual'
 	}
 
-	if (i % 30 == 0) {
-		var img1 = 'empty.png'
-			img2 = 'empty.png'
-			img3 = 'empty.png'
-			img4 = 'empty.png'
-			img5 = 'empty.png'
-	}
-	else if (i % 4 == 0) {
+	if (i % 4 == 0) {
 		var img1 = '/seed/1.jpg'
 			img2 = '/seed/2.jpg'
 			img3 = '/seed/3.jpg'

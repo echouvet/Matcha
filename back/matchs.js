@@ -2,7 +2,6 @@ function    checkmatchs(user_id, callback)
 {
     con.query('SELECT * FROM likes WHERE user_id = ?', [user_id], function (err, rows1) { if (err) throw err 
     con.query('SELECT * FROM likes WHERE his_id = ?', [user_id], function (err, rows2) { if (err) throw err 
-
     if (rows1.length == 0 || rows2.length == 0)
         return callback('none');
     var    a = 0; i = 0;
@@ -21,6 +20,8 @@ function    checkmatchs(user_id, callback)
         }
         a++;
     }
+    if (!id[0])
+        return callback('none');
     var i = 0; id_2 = '(';
     while (id[i]) {
         id_2 += id[i];

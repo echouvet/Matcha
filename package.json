@@ -22,6 +22,7 @@
         "passport": "^0.4.0",
         "random-key": "^0.3.2",
         "reload": "^2.3.0",
+        "session-memory-store": "^0.2.2",
         "socket.io": "^2.1.1",
         "supervisor": "^0.12.0",
         "validator": "^10.3.0",

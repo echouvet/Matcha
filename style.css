@@ -23,9 +23,9 @@ body
 
 .buttons
 {
-	font-size: 1.1vmin;
+	font-size: 1.6vmin;
 	text-align: center;
-	width: 6vw;
+	width: 8.7vw;
 	padding: 1.3vmin;
 	float: right;
 	background-color: #1d1919;
@@ -39,13 +39,44 @@ body
 {
 	position:absolute;
 	top:2vh;
-	right: 4vw;
+	right: 2vw;
 	box-shadow: 10px 10px 10px;
 	border: 1px solid black;
 	display: inline-block;
 	border-radius: 10px;
 	background-color: #808080;
 	padding: 0.3vmin;
+}
+
+.pad2
+{
+	margin-top:5vw;
+	margin-left:35vw;
+	box-shadow: 10px 10px 10px;
+	border: 1px solid black;
+	display: inline-grid;
+	border-radius: 10px;
+	background-color: #808080;
+	padding: 1vmin;
+}
+
+.welcome
+{
+	font-size: 6vmin;
+	text-align: center;
+}
+
+.buttons2
+{
+	font-size: 2.5vmin;
+	text-align: center;
+	width: 25vw;
+	padding: 1.3vmin;
+	background-color: #1d1919;
+	border-radius: 10px;
+	display: inline-block;
+	margin: 1px;
+	color:white;
 }
 
 .matchs
@@ -181,7 +212,6 @@ body
 
 #nomatch
 {
-	margin-left:3vw;
 	font-size: 30px;
 }
 
@@ -466,6 +496,45 @@ left: 15px !important;
     background-color: rgba(230,230,230,0.8);
     border:1px solid black;
     border-radius: 10px;
+}
+
+.size
+{
+	width: 50vw;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.boxchat
+{
+	width: 80vw;
+	margin: 0 auto;
+}
+
+.chatuserinfo
+{
+	border:1px solid black;
+	width: 80vw;
+	background-color: rgba(250,250,250,0.8);
+	border-radius: 10px;
+	text-align: center;
+	padding: 5px;
+}
+
+.chat
+{
+	border:1px solid black;
+	width: 80vw;
+	height: 65vh;
+	background-color: rgba(250,250,250,0.8);
+	border-radius: 10px;
+	text-align: left;
+	padding: 5px;
+}
+
+.userinfo
+{
+	font-size: 1.5vmin;
 }
 
 .img

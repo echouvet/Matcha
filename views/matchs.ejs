@@ -17,11 +17,11 @@
 		<p> <%- match[i].gender  + ' | ' + match[i].orientation %><br/>
 		<%- 'Score : ' + match[i].score %> <br/>
 		<i><%- '  Age: ' %><b><%- match[i].age%></b></i></p>
-		<a href='<%-'/user_profile/' + match[i].id %>'><img src='../chat.png' class="chatprofileimg marg_right"></a>
+		<a href='<%-'/user_chat/' + match[i].id %>'><img src='../chat.png' class="chatprofileimg marg_right"></a>
 		<a href='<%-'/user_profile/' + match[i].id %>'><img src='../profile.png' class="chatprofileimg"></a>
 		</div>
 		<%  i++ } } else { %>
-		<h2 id="nomatch"> No match yet ! <a href="/peers" style="color:grey;">Find your peer NOW !</a></h2>
+		<div class="white size"><h2 id="nomatch"> No match yet ! <a href="/peers" style="color:black;">Find your peer NOW !</a></h2></div>
 		<% } %>
 
 </body>

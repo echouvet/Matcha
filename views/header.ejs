@@ -1,15 +1,14 @@
  <div id="head">
 	<a href="/"><img src="../title.png" id=title></a><br/>
-		<div class="pad">
 		<% if (typeof req.session !== 'undefined' && typeof req.session.profile !== 'undefined' && typeof req.session.profile.login !== 'undefined' && req.session.profile.login) { %> 
+		<div class="pad">
 		<a href="/logout"><div class="buttons"> Logout </div></a>
 		<a href="/login"><div class="buttons">My account</div></a>
 		<a href="/public_profile"><div class="buttons">Public profile</div></a><br/>
 		<a href="/peers"><div class="buttons">Peers</div></a>
 		<a href="/publicprofile"><div class="buttons">Button</div></a>
 		<a href="/matchs"><div class="buttons">Matchs</div></a>
-		<% } else { %>
-		<a href="/login"><div class="buttons"> Login </div></a>
-		<a href="/register"><div class="buttons"> Register </div></a><% } %>
 		</div>
+		<% } %>
+		
 </div>

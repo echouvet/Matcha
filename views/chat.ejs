@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8" />
+    <title>Your matchs</title>
+     <%- css.style %>
+</head> 
+<body id="pageprofil">
+<% include header.ejs %>
+
+	<div class="boxchat">
+
+		<div class="chatuserinfo">
+			<a href="/matchs" class="userinfo" style="float:left; text-decoration: none; color:black;"><i>< Go back</i></a>
+			<p class="minititle">You are chatting with : <b><i><%- user.login %></i></b></p>
+			<p class="userinfo"><i> Age : <%- user.age + ' | Gender : ' + user.gender + ' | Orientation : ' + user.orientation %></i></p>
+		</div>
+		<div class="chat">
+			
+		</div>
+	</div>
+
+</body>
