@@ -532,6 +532,17 @@ left: 15px !important;
 	padding: 5px;
 }
 
+.chatform
+{
+	border:1px solid black;
+	width: 80vw;
+	height: 40px;
+	background-color: rgba(250,250,250,0.8);
+	border-radius: 10px;
+	text-align: left;
+	padding: 5px;
+}
+
 .userinfo
 {
 	font-size: 1.5vmin;

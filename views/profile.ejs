@@ -154,7 +154,7 @@
        <p class="titlehist"><i> Peers who have visited your profile : </i></p>
         <div class="white">
             <% if (visit != 'none') {
-            i = 0; while (visit[i]) { console.log(visit); %>
+            i = 0; while (visit[i]) { %>
             <a href="<%-'/user_profile/' + visit[i].id %>" class="peerhist">
                 <li><b><i><%- visit[i].login %></b></i><%- ' : ' + visit[i].date %></li>
             </a><hr/>

@@ -11,12 +11,14 @@
 	if (match != 'none') {
 	while (match[i]) { %>
 		<div class="peermatch white2" style="text-decoration:none">
+			<div style="width: 200px;">
 		<p class="marg_right"><b id="logpeer"><%-match[i].login%></b><br/>
-		<%- match[i].firstname %><br/><%- match[i].lastname%> </p>
+		<%- match[i].firstname %><br/><%- match[i].lastname%> </p></div>
 		<img src='<%- match[i].img1 %>' class="peerimg marg_right">
+		<div style="width: 200px;">
 		<p> <%- match[i].gender  + ' | ' + match[i].orientation %><br/>
 		<%- 'Score : ' + match[i].score %> <br/>
-		<i><%- '  Age: ' %><b><%- match[i].age%></b></i></p>
+		<i><%- '  Age: ' %><b><%- match[i].age%></b></i></p></div>
 		<a href='<%-'/user_chat/' + match[i].id %>'><img src='../chat.png' class="chatprofileimg marg_right"></a>
 		<a href='<%-'/user_profile/' + match[i].id %>'><img src='../profile.png' class="chatprofileimg"></a>
 		</div>

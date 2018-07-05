@@ -15,8 +15,8 @@ var express = require('express')
     ssn = require('express-session')
     formidable = require('formidable')
     geopoint = require('geopoint')
-    http = require("http");
-
+    http = require("http")
+    ent = require("ent")
 
 // others
 var app = express()
@@ -34,15 +34,25 @@ var app = express()
         saveUninitialized: true
     });
 
-io.use(function(socket, next) {
-    sessionMiddleware(socket.request, socket.request.res, next);
-});
-
 app.use(sessionMiddleware);
 
 app.use(express.static(__dirname + '/img'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
+    io.sockets.on('connection', function (socket, pseudo) {
+    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+    socket.on('nouveau_client', function(pseudo) {
+        
+        socket.pseudo = pseudo;
+        socket.broadcast.emit('nouveau_client', pseudo);
+    });
+
+    // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
+    socket.on('message', function (message) {
+        message = ent.encode(message);
+        socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
+    }); 
+}); 
 
 server.listen(8080)
 
@@ -114,71 +124,71 @@ con.connect(function(err) { if (err) throw err
      con.query(visits, function (err) { if (err) throw err })
 })
 
-app.get('/', function(req,res){
-     eval(fs.readFileSync(__dirname + "/back/peers.js")+'')    
-})
-.get('/peers', function(req, res) {
-    res.redirect('/')
-})
-.get('/index', function(req, res) {
-    res.render('index.ejs')
-})
-.get('/login', function(req,res){
-    if (req.session.profile == undefined)
-        res.render('login.ejs', {req: req, css: css})
-    else
+    app.get('/', function(req,res){
+         eval(fs.readFileSync(__dirname + "/back/peers.js")+'')    
+    })
+    .get('/peers', function(req, res) {
+        res.redirect('/')
+    })
+    .get('/index', function(req, res) {
+        res.render('index.ejs')
+    })
+    .get('/login', function(req,res){
+        if (req.session.profile == undefined)
+            res.render('login.ejs', {req: req, css: css})
+        else
+            eval(fs.readFileSync(__dirname + "/back/profile.js")+'')
+    })
+    .get('/logout', function(req,res){
+        req.session.destroy()
+        req.session = 0;
+        res.redirect('/')
+    })
+    .get('/user_profile/:id', function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
+    })
+    .post('/public_profile/:id', function(req, res) {
+        eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
+    })
+    .get('/register', function(req,res){
+        res.render('register.ejs', {req: req, css: css, error: 'none'})
+    })
+    .get('/matchs', function(req,res){
+       eval(fs.readFileSync(__dirname + "/back/matchs.js")+'')
+    })
+    .get('/public_profile', function(req,res){
+      res.render('public_profile.ejs', {req: req, like: -1, block: 0, report: 0, css: css, profile: req.session.profile, tag: req.session.profile.tag})
+    })
+    .post('/peers', function(req, res) {
+        eval(fs.readFileSync(__dirname + "/back/peers.js")+'')
+    })
+    .post('/register', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/register.js")+'')
+    })
+    .post('/profile', urlencodedParser, function(req,res){
         eval(fs.readFileSync(__dirname + "/back/profile.js")+'')
-})
-.get('/logout', function(req,res){
-    req.session.destroy()
-    req.session = 0;
-    res.redirect('/')
-})
-.get('/user_profile/:id', function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
-})
-.post('/public_profile/:id', function(req, res) {
-    eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
-})
-.get('/register', function(req,res){
-    res.render('register.ejs', {req: req, css: css, error: 'none'})
-})
-.get('/matchs', function(req,res){
-   eval(fs.readFileSync(__dirname + "/back/matchs.js")+'')
-})
-.get('/public_profile', function(req,res){
-  res.render('public_profile.ejs', {req: req, like: -1, block: 0, report: 0, css: css, profile: req.session.profile, tag: req.session.profile.tag})
-})
-.post('/peers', function(req, res) {
-    eval(fs.readFileSync(__dirname + "/back/peers.js")+'')
-})
-.post('/register', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/register.js")+'')
-})
-.post('/profile', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/profile.js")+'')
-})
-.post('/new_img', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/new_img.js")+'')
-})
-.post('/login', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/login.js")+'')
-})
-.post('/forgot', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/forgotpass.js")+'')
-})
-.post('/deletetag', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/deletetag.js")+'')
-})
-.get('/confirm', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/confirm.js")+'')
- })
-.get('/seed', urlencodedParser, function(req,res){
-    eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
- })
-.get('/domatch', urlencodedParser, function(req,res){
-   eval(fs.readFileSync(__dirname + "/back/domorematchs.js")+'')
-})
-.get('/user_chat/:id', function(req,res){
-   eval(fs.readFileSync(__dirname + "/back/chat.js")+'')
-})
+    })
+    .post('/new_img', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/new_img.js")+'')
+    })
+    .post('/login', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/login.js")+'')
+    })
+    .post('/forgot', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/forgotpass.js")+'')
+    })
+    .post('/deletetag', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/deletetag.js")+'')
+    })
+    .get('/confirm', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/confirm.js")+'')
+     })
+    .get('/seed', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
+     })
+    .get('/domatch', urlencodedParser, function(req,res){
+       eval(fs.readFileSync(__dirname + "/back/domorematchs.js")+'')
+    })
+    .get('/user_chat/:id', function(req,res){
+       eval(fs.readFileSync(__dirname + "/back/chat.js")+'')
+    })
