@@ -40,16 +40,16 @@ function    getvisits(user_id, callback)
     })
 }
 
-function    render(type, msg)
+function    render(notifs, type, msg)
 {
     getlikes(req.session.profile.id, function(like){
     getvisits(req.session.profile.id, function(visit){
     if (type == 'error')
-        res.render('profile.ejs', {req: req, css: css, like: like, visit: visit, error: msg, profile: req.session.profile})
+        res.render('profile.ejs', {notif: notifs, css: css, like: like, visit: visit, error: msg, profile: req.session.profile})
     else if (type == 'success')
-        res.render('profile.ejs', {req: req, css: css, like: like, visit: visit, success: msg, profile: req.session.profile})
+        res.render('profile.ejs', {notif: notifs, css: css, like: like, visit: visit, success: msg, profile: req.session.profile})
     else
-        res.render('profile.ejs', {req: req, css: css, like: like, visit: visit, profile: req.session.profile})
+        res.render('profile.ejs', {notif: notifs, css: css, like: like, visit: visit, profile: req.session.profile})
     }) })
 }
 function updateuser(column, change)
@@ -57,21 +57,21 @@ function updateuser(column, change)
     var sql = 'UPDATE users SET ' + column + ' = ? WHERE id = ?'
     con.query(sql, [change, req.session.profile.id], function (err) { if (err) throw err })
     req.session.profile[column] = change
-    render('success', 'Your ' + column + ' was successfully changed')
+    render(notifs, 'success', 'Your ' + column + ' was successfully changed')
 }
 
 if (typeof req.session.profile == undefined)
 {
 
-    res.render('login.ejs', {req: req, css: css, error: 'Please login to access your profile page'})
+    res.render(notifs, 'login.ejs', {req: req, css: css, error: 'Please login to access your profile page'})
 }
 else if (req.body.edit && req.body.general === 'Modify')
 {
     var change = eschtml(req.body.changement)
     if (req.body.changement == '' || req.body.changement.length < '1' || typeof req.body.changement == undefined )
-        render('error', 'Please input something to edit your profile')
+        render(notifs, 'error', 'Please input something to edit your profile')
     else if (change !== eschtml(req.body.confirm))
-        render('error', 'Your input and confirmation were different')
+        render(notifs, 'error', 'Your input and confirmation were different')
     else if (req.body.edit === '1')
     {
         sql = 'SELECT * FROM `users` WHERE login = ?'
@@ -79,7 +79,7 @@ else if (req.body.edit && req.body.general === 'Modify')
             if (result.length === 0)
                 updateuser('login', change)
             else
-                render('error', 'Sorry, this login already exists')
+                render(notifs, 'error', 'Sorry, this login already exists')
         })
     }
     else if (req.body.edit === '2')
@@ -91,11 +91,11 @@ else if (req.body.edit && req.body.general === 'Modify')
         regLow = /[a-z]/ 
         regUp = /[A-Z]/
         if (change.length < 5)
-            render('error', 'Password must be at least 6 characters long')
+            render(notifs, 'error', 'Password must be at least 6 characters long')
         else if (change.search(regLow) === -1)
-            render('error', 'Password must contain a lowercase')
+            render(notifs, 'error', 'Password must contain a lowercase')
         else if (change.search(regUp) === -1)
-            render('error', 'Password must contain an uppercase')
+            render(notifs, 'error', 'Password must contain an uppercase')
         else
         {
             bcrypt.hash(change, 10, function(erroo, hash) { if (erro) throw erroo
@@ -112,11 +112,11 @@ else if (req.body.edit && req.body.general === 'Modify')
                 if (result.length === 0)
                     updateuser('email', change)
                 else
-                    render('error', 'Sorry, this email already exists')
+                    render(notifs, 'error', 'Sorry, this email already exists')
             })
         }
         else
-            render('error', 'Email must be valid')
+            render(notifs, 'error', 'Email must be valid')
     }
 }
 else if (req.body.orientation && req.body.sub_orientation === 'Modify')
@@ -125,7 +125,7 @@ else if (req.body.orientation && req.body.sub_orientation === 'Modify')
     if (change !== 'Select Sexual Orientation')
         updateuser('orientation', change)
     else
-         render('error', 'Select an orientation to update')
+         render(notifs, 'error', 'Select an orientation to update')
 }
 else if (req.body.gender && req.body.sub_gender === 'Modify')
 {
@@ -133,7 +133,7 @@ else if (req.body.gender && req.body.sub_gender === 'Modify')
     if (change !== 'Select Gender')
         updateuser('gender', change)
     else
-        render('error', 'Select a gender to update')
+        render(notifs, 'error', 'Select a gender to update')
 }
 else if (req.body.age && req.body.sub_age === 'Modify')
     updateuser('age', req.body.age)
@@ -156,15 +156,15 @@ else if (req.body.newtag)
                 sql = 'SELECT * FROM `tags` WHERE user_id = ?'
                 con.query(sql, [req.session.profile.id], function (err, result) { if (err) throw err
                     req.session.profile.tag = result
-                    render('success', 'Tag was added with Success!')
+                    render(notifs, 'success', 'Tag was added with Success!')
                 })
             }
             else
-                render('error', 'This tag already exists')
+                render(notifs, 'error', 'This tag already exists')
         })
     }
     else
-        render('error', 'This tag is too long')
+        render(notifs, 'error', 'This tag is too long')
 }
 else if (req.body.deltag)
 {
@@ -175,11 +175,11 @@ else if (req.body.deltag)
         sql = 'SELECT * FROM tags WHERE user_id = ?'
         con.query(sql, [req.session.profile.id], function (err, result) { if (err) throw err
             req.session.profile.tag = result
-            render('success', 'Tag was successfully deleted!')
+            render(notifs, 'success', 'Tag was successfully deleted!')
         })
     }
     else
-        render('error', 'This tag can\'t be delete')
+        render(notifs, 'error', 'This tag can\'t be delete')
     })
 }
 else if (req.body.switch)
@@ -189,7 +189,7 @@ else if (req.body.switch)
         sql = 'UPDATE users SET showlocation = ? WHERE id = ?'
         con.query(sql, [0, req.session.profile.id], function (err, result) { if (err) throw err
             req.session.profile.showlocation = 0
-            render('success', 'Show Location desactived !')
+            render(notifs, 'success', 'Show Location desactived !')
         })
     }
     else if (req.body.switch === 'true')
@@ -197,7 +197,7 @@ else if (req.body.switch)
         sql = 'UPDATE users SET showlocation = ? WHERE id = ?'
         con.query(sql, [1, req.session.profile.id], function (err, result) { if (err) throw err
             req.session.profile.showlocation = 1
-            render('success', 'Show Location actived !')
+            render(notifs, 'success', 'Show Location actived !')
         })
     }
 }
@@ -208,5 +208,5 @@ else if (req.body.modifloc && req.body.fakeloc === 'Modify')
 }
 else
 {
-   render('none', '')
+   render(notifs, 'none', '')
 }

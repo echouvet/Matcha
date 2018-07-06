@@ -11,7 +11,7 @@ body
  	margin-top:-8px;
 	display: inline;
 	width: 100vw;
-	height: 15vmin;
+	height: 13vmin;
 }
 #title
 {
@@ -613,6 +613,7 @@ left: 15px !important;
 
 .left
 {
+	z-index:1;
     position:absolute;
     right:0;
     overflow-y: auto;
@@ -735,6 +736,41 @@ left: 15px !important;
 	margin-top: 5px;
 	width:100px;
 	height:90px;
+}
+
+#notifbox
+{
+	z-index:2;
+	margin-top:-2vh;
+	position:absolute;
+	right:20px;
+	width:20vw;
+	overflow-y: auto;
+	background-color: rgba(50,50,50,1);
+	border: 1px solid black;
+	max-height:50vmin;
+}
+#nonotifs
+{
+	font-size: 1vw;
+	color:white;
+}
+.notif
+{
+	border: 1px solid white;
+	color:white;
+	word-wrap: break-word;
+	font-size: 1vw;
+}
+.notifdot
+{
+	position:absolute;
+	right:1vmin;
+	margin-top: -1vmin;
+	background-color:red;
+	height:1.2vmin;
+	width:1.2vmin;
+	border-radius: 50%;
 }
 
 </style>

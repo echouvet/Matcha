@@ -35,10 +35,10 @@ function    checkmatchs(user_id, callback)
 
 checkmatchs(req.session.profile.id, function(ids) {
     if (ids == 'none')
-        res.render('matchs.ejs', {req: req, css: css, match: 'none'})
+        res.render('matchs.ejs', {notif: notifs, css: css, match: 'none'})
     else
     {
     	con.query( "SELECT * from `users` where `id` IN "+ ids, function( err, matchs ) { if (err) throw err
-		res.render('matchs.ejs', {req: req, css: css, match: matchs}) }) 
+		res.render('matchs.ejs', {notif: notifs, css: css, match: matchs}) }) 
     }
 })

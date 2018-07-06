@@ -28,7 +28,7 @@ else if (req.body.login && req.body.pass)
                           if (err) throw err
                             i = 0;
                             req.session.profile.tag = result
-                            res.render('login.ejs', {req: req, css: css, success: 'CONGRATULATION YOU ARE LOGGED IN'})
+                            res.redirect('/login')
                       })
                    }
                    else

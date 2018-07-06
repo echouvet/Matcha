@@ -21,7 +21,6 @@ function	checklike(user_id, his_id, callback)
 	 		return callback(3);
 	 }) })
 }
-
 function	check(table, user_id, his_id, callback)
 {
 	con.query('SELECT * FROM ' + table + ' WHERE user_id = ? AND his_id = ?', [user_id, his_id], function (err, rows) { if (err) throw err 
@@ -31,13 +30,44 @@ function	check(table, user_id, his_id, callback)
 			return callback(1);
 	})
 }
+function	notif(msg)
+{
+	con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [req.params.id, req.session.profile.id, msg], function (err) { if (err) throw err })
+	if (user[req.params.id])
+    	user[req.params.id].emit('notification', {})
+}
+function	createnotif(table)
+{
+	var name = req.session.profile.login;
+	if (table == 'likes')
+	{
+		checklike(req.session.profile.id, req.params.id, function (like){
+			if (like == 1)
+				notif(name +' HAS LIKED YOU!');
+			else if (like == 3)
+				notif('YOU HAVE MATCHED WITH ' + name + '!');
+		})
+	}
+	else if (table == 'dislike')
+	{
+		checklike(req.session.profile.id, req.params.id, function (like){
+			if (like == 2)
+				notif('YOU ARE NO LONGER MATCHED WITH ' + name + ' :(');
+		})
+	}
+	else if (table == 'visits')
+		notif(name + ' HAS VISITED YOUR PROFILE!');
+}
+
 function	insertinto(table)
 {
 	con.query('INSERT INTO ' + table + ' (user_id, his_id) VALUES (?,?) ', [req.session.profile.id, req.params.id], function (err) { if (err) throw err })
+	createnotif(table);
 }
 function	deletefrom(table)
 {
 	con.query('DELETE FROM ' + table + ' WHERE user_id = ? AND his_id = ?', [req.session.profile.id, req.params.id], function (err) { if (err) throw err })
+	createnotif('dislike');
 }
 
 if (req.body.like)
@@ -84,4 +114,6 @@ con.query('SELECT * FROM tags WHERE user_id = ?', [req.params.id], function (err
 checklike(req.session.profile.id, req.params.id, function(like) {
 check('block', req.session.profile.id, req.params.id, function(block){
 check('report', req.session.profile.id, req.params.id, function(report){
-res.render('public_profile.ejs', {req: req, css: css, like: like, block: block, report: report, profile: result[0], tag: resultag }) }) }) }) }) })
+res.render('public_profile.ejs', {notif: notifs, req: req, css: css, like: like, block: block, report: report, profile: result[0], tag: resultag }) }) }) }) }) })
+
+

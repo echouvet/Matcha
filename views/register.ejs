@@ -6,7 +6,8 @@
         <%- css.style %>
     </head>
     <body id="pageprofil">
-        <% include header.ejs %>
+        <a href="/"><img src="../title.png" id=title></a><br/>
+        <div class="pad"><a href="/login"><div class="buttons"> Login </div></a></div>
         <div class="log grey">
             <h2> Inscription </h2>
             <form action="register" method="post">
@@ -21,5 +22,6 @@
         </div>
         <% if (typeof error !== 'undefined' && error && error !== 'none') { %> <div id=error><strong>Error: <%- error %></strong></div> <% } %>
         <% if (typeof success !== 'undefined' && success) { %> <div id=success><strong>Success: <%- success %></strong></div> <% } %>
+        <% include footer.ejs %>
     </body>
 </html>

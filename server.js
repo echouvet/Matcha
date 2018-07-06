@@ -39,20 +39,16 @@ app.use(sessionMiddleware);
 app.use(express.static(__dirname + '/img'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
-    io.sockets.on('connection', function (socket, pseudo) {
-    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
-    socket.on('nouveau_client', function(pseudo) {
-        
-        socket.pseudo = pseudo;
-        socket.broadcast.emit('nouveau_client', pseudo);
-    });
+var user = new Array;
+io.sockets.on('connection', function (socket) {
+    socket.on('setUserId', function (userId) {
+        user[userId] = socket;
+    })
+    socket.on('seen', function (user_id) {
+        con.query('UPDATE notifs SET seen=1 WHERE user_id=?', [user_id])
+    })
+});
 
-    // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
-    socket.on('message', function (message) {
-        message = ent.encode(message);
-        socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
-    }); 
-}); 
 
 server.listen(8080)
 
@@ -122,54 +118,51 @@ con.connect(function(err) { if (err) throw err
         his_id INT NOT NULL, \
         date DATETIME DEFAULT CURRENT_TIMESTAMP)`
      con.query(visits, function (err) { if (err) throw err })
+
+     var notifs = `CREATE TABLE IF NOT EXISTS notifs (\
+        id INT AUTO_INCREMENT PRIMARY KEY, \
+        user_id INT NOT NULL, \ 
+        his_id INT NOT NULL, \
+        notif TEXT, \
+        seen INT NOT NULL DEFAULT 0, \
+        date DATETIME DEFAULT CURRENT_TIMESTAMP)`
+     con.query(notifs, function (err) { if (err) throw err })
 })
 
+function    getnotifs(id, callback) {
+    con.query('SELECT * FROM notifs WHERE user_id = ? ORDER BY date DESC LIMIT 20', [id], function(err, notifs){ if (err) throw err
+    if (notifs.length == 0)
+        return callback(id);
+    else
+        return callback(notifs);
+}) }
+
     app.get('/', function(req,res){
-         eval(fs.readFileSync(__dirname + "/back/peers.js")+'')    
-    })
-    .get('/peers', function(req, res) {
-        res.redirect('/')
+        if (req.session.profile == undefined)
+            res.redirect('/index')
+        else
+            res.redirect('/peers')
     })
     .get('/index', function(req, res) {
         res.render('index.ejs')
     })
-    .get('/login', function(req,res){
-        if (req.session.profile == undefined)
-            res.render('login.ejs', {req: req, css: css})
-        else
-            eval(fs.readFileSync(__dirname + "/back/profile.js")+'')
-    })
-    .get('/logout', function(req,res){
-        req.session.destroy()
-        req.session = 0;
-        res.redirect('/')
-    })
-    .get('/user_profile/:id', function(req,res){
-        eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
-    })
-    .post('/public_profile/:id', function(req, res) {
-        eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'')
-    })
     .get('/register', function(req,res){
-        res.render('register.ejs', {req: req, css: css, error: 'none'})
-    })
-    .get('/matchs', function(req,res){
-       eval(fs.readFileSync(__dirname + "/back/matchs.js")+'')
-    })
-    .get('/public_profile', function(req,res){
-      res.render('public_profile.ejs', {req: req, like: -1, block: 0, report: 0, css: css, profile: req.session.profile, tag: req.session.profile.tag})
-    })
-    .post('/peers', function(req, res) {
-        eval(fs.readFileSync(__dirname + "/back/peers.js")+'')
+        res.render('register.ejs', {css: css, error: 'none'})
     })
     .post('/register', urlencodedParser, function(req,res){
         eval(fs.readFileSync(__dirname + "/back/register.js")+'')
     })
-    .post('/profile', urlencodedParser, function(req,res){
-        eval(fs.readFileSync(__dirname + "/back/profile.js")+'')
-    })
-    .post('/new_img', urlencodedParser, function(req,res){
-        eval(fs.readFileSync(__dirname + "/back/new_img.js")+'')
+    .get('/confirm', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/confirm.js")+'')
+     })
+    .get('/login', function(req,res){   
+        if (req.session.profile == undefined)
+            res.render('login.ejs', {req: req, css: css})
+        else
+        {
+            getnotifs(req.session.profile.id, function(notifs){
+            eval(fs.readFileSync(__dirname + "/back/profile.js")+'') })
+        }
     })
     .post('/login', urlencodedParser, function(req,res){
         eval(fs.readFileSync(__dirname + "/back/login.js")+'')
@@ -177,12 +170,43 @@ con.connect(function(err) { if (err) throw err
     .post('/forgot', urlencodedParser, function(req,res){
         eval(fs.readFileSync(__dirname + "/back/forgotpass.js")+'')
     })
-    .post('/deletetag', urlencodedParser, function(req,res){
-        eval(fs.readFileSync(__dirname + "/back/deletetag.js")+'')
+    .get('/logout', function(req,res){
+        req.session.destroy()
+        req.session = 0;
+        res.redirect('/')
     })
-    .get('/confirm', urlencodedParser, function(req,res){
-        eval(fs.readFileSync(__dirname + "/back/confirm.js")+'')
-     })
+    .get('/peers', function(req, res) {
+        getnotifs(req.session.profile.id, function(notifs){
+        eval(fs.readFileSync(__dirname + "/back/peers.js")+'') })
+    })
+    .get('/user_profile/:id', function(req,res){
+        getnotifs(req.session.profile.id, function(notifs){
+        eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'') })
+    })
+    .post('/public_profile/:id', function(req, res) {
+        getnotifs(req.session.profile.id, function(notifs){
+        eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'') })
+    })
+    .get('/matchs', function(req,res){
+        getnotifs(req.session.profile.id, function(notifs){
+        eval(fs.readFileSync(__dirname + "/back/matchs.js")+'') })
+    })
+    .get('/public_profile', function(req,res){
+        getnotifs(req.session.profile.id, function(notifs){
+        res.render('public_profile.ejs', {notif: notifs, req:req, like: -1, block: 0, report: 0, css: css, profile: req.session.profile, tag: req.session.profile.tag}) })
+    })
+    .post('/peers', function(req, res) {
+        getnotifs(req.session.profile.id, function(notifs){
+        eval(fs.readFileSync(__dirname + "/back/peers.js")+'') })
+    })
+    .post('/profile', urlencodedParser, function(req,res){
+        getnotifs(req.session.profile.id, function(notifs){
+        eval(fs.readFileSync(__dirname + "/back/profile.js")+'') })
+    })
+    .post('/new_img', urlencodedParser, function(req,res){
+        getnotifs(req.session.profile.id, function(notifs){
+        eval(fs.readFileSync(__dirname + "/back/new_img.js")+'') })
+    })
     .get('/seed', urlencodedParser, function(req,res){
         eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
      })

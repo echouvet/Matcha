@@ -38,10 +38,10 @@ if (req.body.login && req.body.firstname && req.body.lastname && req.body.pass &
                                         }
                                         smtpTransport.sendMail(mail, function(error, response){
                                         if (error) {
-                                            res.render('register.ejs', {req: req, css: css, error: 'Error whilst sending e-mail : ' + error}) 
+                                            res.render('register.ejs', {css: css, error: 'Error whilst sending e-mail : ' + error}) 
                                         }
                                         else {
-                                            res.render('register.ejs', {req: req, css: css, success: "Un mail de confirmation vient d'être envoyer !"})
+                                            res.render('register.ejs', {css: css, success: "Un mail de confirmation vient d'être envoyer !"})
                                         }
                                     smtpTransport.close() })
                                         bcrypt.hash(pass, 10, function(err, hash) { if (err) throw err
@@ -54,23 +54,23 @@ if (req.body.login && req.body.firstname && req.body.lastname && req.body.pass &
                                             if (err) { if (err.code == 'EEXIST') { return ; } else { throw err; } }})})) });
                                 }
                                 else
-                                    res.render('register.ejs', {req: req, css: css, error: 'login or email already exists'}) 
+                                    res.render('register.ejs', {css: css, error: 'login or email already exists'}) 
                             })
                         }
                         else
-                            res.render('register.ejs', {req: req, css: css, error: 'Please use a Valid E-mail !'})
+                            res.render('register.ejs', {css: css, error: 'Please use a Valid E-mail !'})
                     }
                     else
-                        res.render('register.ejs', {req: req, css: css, error: 'Password must contain an uppercase !'})
+                        res.render('register.ejs', {css: css, error: 'Password must contain an uppercase !'})
                 }
                 else
-                    res.render('register.ejs', {req: req, css: css, error: 'Password must contain a lowercase !'})
+                    res.render('register.ejs', {css: css, error: 'Password must contain a lowercase !'})
             }
             else
-                res.render('register.ejs', {req: req, css: css, error: 'Password must be at least 6 characters long'})
+                res.render('register.ejs', {css: css, error: 'Password must be at least 6 characters long'})
         }
         else
-            res.render('register.ejs', {req: req, css: css, error: 'Password and Confirm Password must be the same!'})
+            res.render('register.ejs', {css: css, error: 'Password and Confirm Password must be the same!'})
     }
     else
-        res.render('register.ejs', {req: req, css: css, error: 'Filling in Every field is required'})
+        res.render('register.ejs', {css: css, error: 'Filling in Every field is required'})

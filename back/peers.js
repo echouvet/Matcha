@@ -50,7 +50,7 @@ function profilevalidate(req, res, css, p)
     }
     else if (!p.gender || !p.orientation || !p.bio || !p.age || p.img1 == 'empty.png')
     {
-        res.render('profile.ejs', {req: req, css: css, error: 'Please complete your profile before choosing your peer', profile: p, like: 'none', visit: 'none'})
+        res.render('profile.ejs', {notif: notifs, css: css, error: 'Please complete your profile before choosing your peer', profile: p, like: 'none', visit: 'none'})
         return false
     }
     else
@@ -195,7 +195,7 @@ function    gender_orientation(orientation, gender, callback)
 }
 
 if (req.session.profile == undefined)
-    res.render('index.ejs', {req: req, css: css})
+    res.render('index.ejs', {css: css})
 else if (profilevalidate(req, res, css, req.session.profile) == false)
      ;
 else
@@ -267,7 +267,7 @@ else
                     return (false)
             });
         }
-       res.render('peers.ejs', {req: req, peer: result, css: css})
+       res.render('peers.ejs', {notif: notifs, peer: result, css: css})
     }) });
 }
         

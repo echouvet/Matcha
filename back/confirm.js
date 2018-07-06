@@ -13,8 +13,8 @@ if (req.query.login && req.query.key)
     		res.render('login.ejs', {req: req, css: css, success: 'Votre compte est activé ! Connectez-vous !'})
  		}
 		else
-    		res.render('register.ejs', {req: req, css: css, error: 'Something went wrong, your account was not confirmed'})
+    		res.render('register.ejs', {css: css, error: 'Something went wrong, your account was not confirmed'})
     })
 }
 else
-    res.render('register.ejs', {req: req, css: css, error: 'Stop trying to get to places you dont belong!'})
+    res.render('register.ejs', {css: css, error: 'Stop trying to get to places you dont belong!'})
