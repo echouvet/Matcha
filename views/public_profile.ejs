@@ -69,7 +69,8 @@
 	<p style="text-align: center;"><strong>Location:</strong><br/><br/><i> <%- profile.fakelocation %><br/></i>
 	<% } %>
 	<br/>
-	<% var point1 = new geopoint(req.session.profile.latitude, req.session.profile.longitude) 
+	<%
+	var point1 = new geopoint(req.session.profile.latitude, req.session.profile.longitude) 
 		point2 =  new geopoint(profile.latitude, profile.longitude)
 		distance = point1.distanceTo(point2, true)
 		if (!distance)

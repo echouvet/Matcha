@@ -43,6 +43,7 @@ var user = new Array;
 io.sockets.on('connection', function (socket) {
     socket.on('setUserId', function (userId) {
         user[userId] = socket;
+        socket.myid = userId;
     })
     socket.on('seen', function (user_id) {
         con.query('UPDATE notifs SET seen=1 WHERE user_id=?', [user_id])
@@ -71,6 +72,10 @@ io.sockets.on('connection', function (socket) {
             io.to(room).emit('message', {pseudo: socket.pseudo, message: message}); 
         });
     });
+    socket.on('disconnect', function(){
+           con.query('UPDATE users SET active=CURRENT_TIMESTAMP WHERE id=?', [socket.myid], function (err) { if (err) throw err })
+           delete user[socket.myid];
+   });
 });
 
 
@@ -105,6 +110,7 @@ con.connect(function(err) { if (err) throw err
         location TEXT, \
         fakelocation TEXT, \
         showlocation INT DEFAULT 1, \
+        active DATETIME, \
         img1 VARCHAR(255) DEFAULT 'empty.png', \
         img2 VARCHAR(255) DEFAULT 'empty.png', \
         img3 VARCHAR(255) DEFAULT 'empty.png', \
@@ -207,7 +213,20 @@ function    getnotifs(id, callback) {
         req.session = 0;
         res.redirect('/')
     })
-    .get('/peers', function(req, res) {
+    .get('/seed', urlencodedParser, function(req,res){
+        eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
+     })
+    .get('/domatch', urlencodedParser, function(req,res){
+       eval(fs.readFileSync(__dirname + "/back/domorematchs.js")+'')
+    })
+    app.use(function(req, res, next) {
+        if (req.session.profile == undefined)
+            res.redirect('/');
+        else
+            next();
+        
+    });
+    app.get('/peers', function(req, res) {
         getnotifs(req.session.profile.id, function(notifs){
         eval(fs.readFileSync(__dirname + "/back/peers.js")+'') })
     })
@@ -231,7 +250,7 @@ function    getnotifs(id, callback) {
     })
     .get('/public_profile', function(req,res){
         getnotifs(req.session.profile.id, function(notifs){
-        res.render('public_profile.ejs', {notif: notifs, req:req, like: -1, block: 0, report: 0, css: css, profile: req.session.profile, tag: req.session.profile.tag}) })
+        res.render('public_profile.ejs', {notif: notifs, req: req, like: -1, block: 0, online: 1, report: 0, css: css, profile: req.session.profile, tag: req.session.profile.tag}) })
     })
     .post('/peers', function(req, res) {
         getnotifs(req.session.profile.id, function(notifs){
@@ -245,12 +264,6 @@ function    getnotifs(id, callback) {
         getnotifs(req.session.profile.id, function(notifs){
         eval(fs.readFileSync(__dirname + "/back/new_img.js")+'') })
     })
-    .get('/seed', urlencodedParser, function(req,res){
-        eval(fs.readFileSync(__dirname + "/back/createaccounts.js")+'')
-     })
-    .get('/domatch', urlencodedParser, function(req,res){
-       eval(fs.readFileSync(__dirname + "/back/domorematchs.js")+'')
-    })
-    .get('/user_chat/:id', function(req,res){
-       eval(fs.readFileSync(__dirname + "/back/chat.js")+'')
-    })
+    .all('*', function(req, res) {
+      res.redirect('/');
+    });

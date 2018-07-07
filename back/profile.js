@@ -65,6 +65,16 @@ if (typeof req.session.profile == undefined)
 
     res.render(notifs, 'login.ejs', {req: req, css: css, error: 'Please login to access your profile page'})
 }
+else if (req.body.table)
+{
+var table = JSON.parse(req.body.table)
+    
+    location = 'Continent : ' + table.continent_name + ' | Country : ' + table.country_name + ' | Region : ' + table.region_name + ' | City : ' + table.city + ' | Postal Code : ' + table.zip
+    con.query('UPDATE users SET longitude = ?, latitude = ?, location = ? WHERE id = ?', [table.longitude, table.latitude, location, req.session.profile.id], function (err) { if (err) throw err })
+    req.session.profile.location = location
+    req.session.profile.longitude = table.longitude
+    req.session.profile.latitude = table.latitude
+}
 else if (req.body.edit && req.body.general === 'Modify')
 {
     var change = eschtml(req.body.changement)

@@ -30,6 +30,16 @@ function	check(table, user_id, his_id, callback)
 			return callback(1);
 	})
 }
+function    checkonline()
+{
+    if (req.session.profile.id != req.params.id)
+        online = 1;
+    else if (user[req.params.id])
+        online = 1;
+    else
+        online = 0;
+    return online;
+}
 function	notif(msg)
 {
 	con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [req.params.id, req.session.profile.id, msg], function (err) { if (err) throw err })
@@ -114,6 +124,7 @@ con.query('SELECT * FROM tags WHERE user_id = ?', [req.params.id], function (err
 checklike(req.session.profile.id, req.params.id, function(like) {
 check('block', req.session.profile.id, req.params.id, function(block){
 check('report', req.session.profile.id, req.params.id, function(report){
-res.render('public_profile.ejs', {notif: notifs, req: req, css: css, like: like, block: block, report: report, profile: result[0], tag: resultag }) }) }) }) }) })
+var online = checkonline();
+res.render('public_profile.ejs', {notif: notifs, req: req, online: online, css: css, like: like, block: block, report: report, profile: result[0], tag: resultag }) }) }) }) }) })
 
 

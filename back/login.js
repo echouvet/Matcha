@@ -1,14 +1,4 @@
-if (req.body.table)
-{
-var table = JSON.parse(req.body.table)
-    
-    location = 'Continent : ' + table.continent_name + ' | Country : ' + table.country_name + ' | Region : ' + table.region_name + ' | City : ' + table.city + ' | Postal Code : ' + table.zip
-    con.query('UPDATE users SET longitude = ?, latitude = ?, location = ? WHERE id = ?', [table.longitude, table.latitude, location, req.session.profile.id], function (err) { if (err) throw err })
-    req.session.profile.location = location
-    req.session.profile.longitude = table.longitude
-    req.session.profile.latitude = table.latitude
-}
-else if (req.body.login && req.body.pass)
+if (req.body.login && req.body.pass)
 {
     sql = 'SELECT * FROM `users` WHERE login = ?'
     variables = [req.body.login]
