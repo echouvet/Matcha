@@ -179,7 +179,7 @@ function    getnotifs(id, callback) {
         if (req.session.profile == undefined)
             res.redirect('/index')
         else
-            res.redirect('/peers')
+            res.redirect('/profile')
     })
     .get('/index', function(req, res) {
         res.render('index.ejs')
