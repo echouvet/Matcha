@@ -7,6 +7,9 @@
 <body id="pageprofil">
 <% include header.ejs %>
 <div class='left grey'> 
+	<% if (profile.active == null) { profile.active = 'Never' }
+	 if (online == 1) { %><p class="on">• Online</p><% } else { %>
+	<p class="off1">• Offline</p> <p class="off2">Since : <%- profile.active %></p><% } %>
 	<img class=img src="../<%- profile.img2 %>"><BR \>
 	<img class=img src="../<%- profile.img3 %>"><BR \>
 	<img class=img src="../<%- profile.img4 %>"><BR \>
@@ -24,6 +27,7 @@
 	</form>
 	</div><% } %>
 	<h1 style="text-align: center;"><%- profile.firstname %>  <%- profile.lastname %>'s Profile</h1>
+
 	<HR /><br/>
 <div class="photoprincipale">
 	<img class="img img1" src="<%- profile.img1 %>"><BR \>

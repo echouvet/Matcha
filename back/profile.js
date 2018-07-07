@@ -60,12 +60,7 @@ function updateuser(column, change)
     render(notifs, 'success', 'Your ' + column + ' was successfully changed')
 }
 
-if (typeof req.session.profile == undefined)
-{
-
-    res.render(notifs, 'login.ejs', {req: req, css: css, error: 'Please login to access your profile page'})
-}
-else if (req.body.table)
+if (req.body.table)
 {
 var table = JSON.parse(req.body.table)
     
@@ -74,6 +69,12 @@ var table = JSON.parse(req.body.table)
     req.session.profile.location = location
     req.session.profile.longitude = table.longitude
     req.session.profile.latitude = table.latitude
+}
+
+if (typeof req.session.profile == undefined)
+{
+
+    res.render(notifs, 'login.ejs', {req: req, css: css, error: 'Please login to access your profile page'})
 }
 else if (req.body.edit && req.body.general === 'Modify')
 {

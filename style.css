@@ -508,6 +508,26 @@ left: 15px !important;
     border:1px solid black;
     border-radius: 10px;
 }
+
+.off1
+{
+	text-align: center;
+	color:red;
+	font-size: 20px;
+	margin-bottom:0px;
+}
+.off2
+{
+	margin-top:0px;
+	font-size: 12px;
+	text-align: center;
+}
+.on
+{
+	text-align: center; 
+	color:#00ff00; 
+	font-size: 20px;
+}
 .white
 {
     padding:10px;
@@ -515,6 +535,7 @@ left: 15px !important;
     border:1px solid black;
     border-radius: 10px;
 }
+
 .white2
 {
     padding:10px;
@@ -778,14 +799,16 @@ left: 15px !important;
 #notifbox
 {
 	z-index:2;
-	margin-top:-2vh;
+	margin-top:-3vh;
 	position:absolute;
 	right:20px;
 	width:20vw;
 	overflow-y: auto;
-	background-color: rgba(50,50,50,1);
+	background-color: rgb(29, 25, 25);
 	border: 1px solid black;
 	max-height:50vmin;
+	border-radius: 20px;
+	box-shadow: 10px 10px 10px;
 }
 #nonotifs
 {
@@ -794,10 +817,10 @@ left: 15px !important;
 }
 .notif
 {
-	border: 1px solid white;
 	color:white;
 	word-wrap: break-word;
 	font-size: 1vw;
+	padding: 5px;
 }
 .notifdot
 {

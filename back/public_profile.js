@@ -32,7 +32,7 @@ function	check(table, user_id, his_id, callback)
 }
 function    checkonline()
 {
-    if (req.session.profile.id != req.params.id)
+    if (req.session.profile.id == req.params.id)
         online = 1;
     else if (user[req.params.id])
         online = 1;

@@ -161,7 +161,17 @@
 </body>
  </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+<script>
+        $.ajax({
+    url: 'http://api.ipstack.com/check?access_key=97307c73fbc24738033ecab287ad0a82',   
+    dataType: 'jsonp',
+    success: function(json) {
+        var httpPost = new XMLHttpRequest();
+        httpPost.open("POST", "/profile");
+        httpPost.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        httpPost.send('table=' +  encodeURIComponent(JSON.stringify(json)));
+    } }); 
+</script>
 <script>
 $(document).ready(function()
 {
@@ -206,7 +216,6 @@ $('.switch').click(function()
     else
         fakeloc.disabled = true;
 }
-
     window.onload = placeholder();
     function placeholder() {
         var s = document.getElementById("modifyuserlist").value;
@@ -230,5 +239,7 @@ $('.switch').click(function()
             confirm.type = "text";
         }
         document.getElementById("modifyuser").placeholder = i; }
+
+
     
 </script>
