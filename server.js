@@ -47,6 +47,30 @@ io.sockets.on('connection', function (socket) {
     socket.on('seen', function (user_id) {
         con.query('UPDATE notifs SET seen=1 WHERE user_id=?', [user_id])
     })
+    socket.on('room', function (user_id, his_id) {
+        if (user_id > his_id)
+            room = user_id + his_id;
+        else
+            room = his_id + user_id;
+        socket.join(room);
+    });
+    socket.on('nouveau_client', function(pseudo, user_id, his_id) {
+        socket.pseudo = pseudo;
+        socket.user_id = user_id;
+        socket.his_id = his_id;
+        io.to(room).emit('nouveau_client', pseudo);
+    });
+    socket.on('message', function (message, room) {
+        message = ent.encode(message);
+        con.query("INSERT INTO `chat` (message, user_id, his_id) VALUES (?,?,?)", [message, socket.user_id, socket.his_id], function (err) { 
+            if (err) throw err;
+            var msg = socket.pseudo +' HAS SENT YOU A NEW MESSAGE'
+            con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [socket.his_id, socket.user_id, msg], function (err) { if (err) throw err })
+            if (user[socket.his_id])
+                user[socket.his_id].emit('notification', {})
+            io.to(room).emit('message', {pseudo: socket.pseudo, message: message}); 
+        });
+    });
 });
 
 
@@ -127,6 +151,14 @@ con.connect(function(err) { if (err) throw err
         seen INT NOT NULL DEFAULT 0, \
         date DATETIME DEFAULT CURRENT_TIMESTAMP)`
      con.query(notifs, function (err) { if (err) throw err })
+     
+     var chat = `CREATE TABLE IF NOT EXISTS chat (\
+        id INT AUTO_INCREMENT PRIMARY KEY, \
+        message TEXT, \
+        user_id INT NOT NULL, \ 
+        his_id INT NOT NULL, \
+        date DATETIME DEFAULT CURRENT_TIMESTAMP)`
+    con.query(chat, function (err) { if (err) throw err })
 })
 
 function    getnotifs(id, callback) {
@@ -186,6 +218,12 @@ function    getnotifs(id, callback) {
     .post('/public_profile/:id', function(req, res) {
         getnotifs(req.session.profile.id, function(notifs){
         eval(fs.readFileSync(__dirname + "/back/public_profile.js")+'') })
+    })
+    .get('/user_chat/:id', function(req,res){
+        con.query("SELECT * from `users` where id = ?", [req.params.id], function( err, user2 ) { if (err) throw err
+        con.query('SELECT * FROM `chat` WHERE user_id = ? OR his_id = ?', [req.params.id, req.params.id], function (err, chat) { if (err) throw err 
+        getnotifs(req.session.profile.id, function(notifs){
+        res.render('chat.ejs', {notif: notifs, req: req, css: css, user2: user2[0], chat:chat}) }) })  })
     })
     .get('/matchs', function(req,res){
         getnotifs(req.session.profile.id, function(notifs){

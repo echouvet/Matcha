@@ -31,8 +31,9 @@
 		<p class="msgpeer"><i><b> This peer likes you ! </b></i></p>
 	<% } %>
 	<% if (like == 3) { %>
-		<p class="msgpeer"><i><b> It's a match ! </b></i></p>
-	<% } %>
+        <p class="msgpeer"><i><b> It's a match ! </b>
+        <a href="<%- '/user_chat/' + profile.id %>" class="nolink">Chat with <%- profile.firstname %></a></i></p>
+    <% } %>
 	<form action="/public_profile/<%- profile.id %>" method="post">
 		<input type="image" class="imglike <% if (like == -1 || like == 1 || like == 3) { %> grayscale <% } %>" src="../like.png" name="like" value="like" id="like">
 		<input type="image" class="imglike <% if (like == -1 || like == 0 || like == 2) { %> grayscale <% } %>" src="../dislike.png" name="dislike" value="dislike" id="dislike">

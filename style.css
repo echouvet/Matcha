@@ -11,7 +11,7 @@ body
  	margin-top:-8px;
 	display: inline;
 	width: 100vw;
-	height: 13vmin;
+	height: 15vmin;
 }
 #title
 {
@@ -33,6 +33,31 @@ body
 	display: inline-block;
 	margin: 1px;
 	color:white;
+}
+
+.my_msg
+{
+	background-color: #ffffffa1;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 15px;
+	padding-left: 15px;
+	border-radius: 10px;
+}
+
+.a_msg
+{
+	background-color: #9292929e;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 15px;
+	padding-left: 15px;
+	border-radius: 10px;
+}
+
+.nomarg
+{
+	margin:0px;
 }
 
 .pad
@@ -530,6 +555,7 @@ left: 15px !important;
 	border-radius: 10px;
 	text-align: left;
 	padding: 5px;
+	overflow-y: auto;
 }
 
 .chatform
@@ -613,7 +639,6 @@ left: 15px !important;
 
 .left
 {
-	z-index:1;
     position:absolute;
     right:0;
     overflow-y: auto;
@@ -738,6 +763,18 @@ left: 15px !important;
 	height:90px;
 }
 
+.chatpublicprofileimg
+{
+	margin-top: 1vw;
+    width: 5vw;
+}
+
+.nolink
+{
+	text-decoration: none; 
+	color:black;
+}
+/*notifs*/
 #notifbox
 {
 	z-index:2;
