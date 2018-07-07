@@ -1,4 +1,6 @@
-if (req.body.login && req.body.pass)
+if (!req.body.login && !req.body.pass)
+  res.render('login.ejs', {req: req, css: css})
+else if (req.body.login && req.body.pass)
 {
     sql = 'SELECT * FROM `users` WHERE login = ?'
     variables = [req.body.login]
@@ -18,7 +20,7 @@ if (req.body.login && req.body.pass)
                           if (err) throw err
                             i = 0;
                             req.session.profile.tag = result
-                            res.redirect('/login')
+                            res.redirect('/profile')
                       })
                    }
                    else

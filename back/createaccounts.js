@@ -37,6 +37,9 @@ function maketag() {
   return text;
 }
 
+con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (err, result) { if (err) throw err;
+	if (result.length == 0) {
+
 var i = 0
 	pass = '$2a$10$fXJ03NwABaEi4HLQhWiGpOhdbpcTEo93DvY0UBAJlbyhpdvPkXnzu' // Fakeuser42
 	confirm = 1
@@ -49,7 +52,7 @@ while (i < 600) {
 		location = 'La vrai location du FakeUser' + i
 		fakelocation = 'La fakelocation du FakeUser' + i
 		key = 'Key'+ i
-		age = i % 51
+		age = getRandomInt(60) + 18;
 		longitude = i % 90
 		latitude = i % 90
 		quelgenre = getRandomInt(2)
@@ -137,5 +140,5 @@ while (i < 600) {
 	sql = 'INSERT INTO `likes` (user_id, his_id) VALUES (?,?)'
 	con.query(sql, [getRandomInt(600), getRandomInt(600)], function (err, result) { if (err) throw err })
 	i++
-}
+} } });
 res.render('index.ejs', {req: req, css: css})

@@ -7,11 +7,8 @@
     </head>
  
     <body id="pageprofil">
-
-        <% if (typeof req.session.profile == 'undefined') { %>
     <a href="/"><img src="../title.png" id=title></a><br/>
     <div class="pad"><a href="/register"><div class="buttons"> Register </div></a></div>
-    <% } else {  %> <% include header.ejs %><% } %>
 
     <div class="log grey" style="height: 290px;">
         <h2> Login </h2>
