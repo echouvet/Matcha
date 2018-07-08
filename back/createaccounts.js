@@ -49,7 +49,6 @@ while (i < 600) {
 		email = 'fakeuser' + i + '@gmail.com'
 		bio = 'La belle bio du FakeUser' + i
 		score = 5 * getRandomInt(200)
-		location = 'La vrai location du FakeUser' + i
 		fakelocation = 'La fakelocation du FakeUser' + i
 		key = 'Key'+ i
 		age = getRandomInt(60) + 18;
@@ -57,20 +56,16 @@ while (i < 600) {
 		latitude = i % 90
 		quelgenre = getRandomInt(2)
 		quelorientation = getRandomInt(3)
-		isshowloc = getRandomInt(2)
 		firstname = makefirstname();
 		lastname = makelastname();
+		showlocation = 0;
 
 		
 	if (quelgenre == 0)
 		gender = 'Male'
 	else
 		gender = 'Female'
-	if (isshowloc == 0)
-		showlocation = 0
-	else
-		showlocation = 1
-
+	
 	if (quelorientation == 0) {
 			orientation = 'Heterosexual'
 	}
@@ -110,10 +105,10 @@ while (i < 600) {
 			img5 = '/seed/20.jpg'
 	}
 	sql = 'INSERT INTO `users` (`login`, `firstname`, `lastname`, `pass`, `email`, `confirmkey`, `confirm`, `gender`,\
-	 `orientation`, `bio`, `age`, `score`, `location`, `fakelocation`, `showlocation`, `img1`, `img2`, `img3`, `img4`, `img5`, `longitude`, `latitude`)\
-	  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+	 `orientation`, `bio`, `age`, `score`, `fakelocation`, `showlocation`, `img1`, `img2`, `img3`, `img4`, `img5`, `longitude`, `latitude`)\
+	  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 	con.query(sql, [login, firstname, lastname, pass, email, key, confirm, gender, orientation, bio, age,
-	 score, location, fakelocation, showlocation, img1, img2, img3, img4, img5, longitude, latitude], function (err, result) { if (err) throw err })
+	 score, fakelocation, showlocation, img1, img2, img3, img4, img5, longitude, latitude], function (err, result) { if (err) throw err })
 
 	sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
 	con.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
