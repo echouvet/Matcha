@@ -48,7 +48,7 @@ while (i < 600) {
 	var login = 'FakeUser' + i
 		email = 'fakeuser' + i + '@gmail.com'
 		bio = 'La belle bio du FakeUser' + i
-		score = getRandomInt(1000)
+		score = 5 * getRandomInt(200)
 		location = 'La vrai location du FakeUser' + i
 		fakelocation = 'La fakelocation du FakeUser' + i
 		key = 'Key'+ i
