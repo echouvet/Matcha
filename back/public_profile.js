@@ -86,13 +86,27 @@ function	deletefrom(table)
 	createnotif('dislike');
 }
 
+function	updatescore(event){
+	con.query('SELECT score FROM users WHERE id = ?', [req.params.id], function(err, score){ if (err) throw err;
+		score = score[0].score;
+		if (event == 'plus')
+			score += 5;
+		else if (event == 'less')
+			score -= 5;
+		con.query('UPDATE users SET score=? WHERE id=?', [score, req.params.id], function(err){ if (err) throw err; })
+	})
+}
+
 if (req.body.like)
 {
 	checklike(req.session.profile.id, req.params.id, function(like){
 		if (like == -1 || like == 1 || like == 3)
 			return ;
 		else
+		{
+			updatescore('plus')
 			insertinto('likes')
+		}
 	})
 }
 if (req.body.dislike)
@@ -101,7 +115,10 @@ if (req.body.dislike)
 		if (like == 0 || like == 2)
 			return ;
 		else
+		{
+			updatescore('less')
 			deletefrom('likes')
+		}
 	})
 }
 if (req.body.block)
