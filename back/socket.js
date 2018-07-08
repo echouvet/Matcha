@@ -19,17 +19,30 @@ socket.on('nouveau_client', function(pseudo, user_id, his_id) {
     socket.his_id = his_id;
     io.to(room).emit('nouveau_client', pseudo);
 });
+
+function notifmsg(user_id, his_id, name) {
+    con.query('SELECT * FROM block WHERE user_id = ? AND his_id = ?', [his_id, user_id], function (err, block) { if (err) throw err 
+        if (block.length == 0)
+        {
+            var msg = name +' HAS SENT YOU A NEW MESSAGE'
+            con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [his_id, user_id, msg], function (err) { if (err) throw err })
+            if (user[his_id])
+                user[his_id].emit('notification', {})
+        }
+
+    })
+}
+
 socket.on('message', function (message, room) {
     message = ent.encode(message);
     con.query("INSERT INTO `chat` (message, user_id, his_id) VALUES (?,?,?)", [message, socket.user_id, socket.his_id], function (err) { 
         if (err) throw err;
-        var msg = socket.pseudo +' HAS SENT YOU A NEW MESSAGE'
-        con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [socket.his_id, socket.user_id, msg], function (err) { if (err) throw err })
-        if (user[socket.his_id])
-            user[socket.his_id].emit('notification', {})
+        notifmsg(socket.user_id, socket.his_id, socket.pseudo)
         io.to(room).emit('message', {pseudo: socket.pseudo, message: message}); 
     });
 });
+
+
 socket.on('disconnect', function(){
        con.query('UPDATE users SET active=CURRENT_TIMESTAMP WHERE id=?', [socket.myid], function (err) { if (err) throw err })
        delete user[socket.myid];

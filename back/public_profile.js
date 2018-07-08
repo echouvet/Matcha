@@ -42,9 +42,12 @@ function    checkonline()
 }
 function	notif(msg)
 {
-	con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [req.params.id, req.session.profile.id, msg], function (err) { if (err) throw err })
-	if (user[req.params.id])
-    	user[req.params.id].emit('notification', {})
+	check('block', req.params.id, req.session.profile.id, function(block) {
+	if (block == 0) {
+		con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [req.params.id, req.session.profile.id, msg], function (err) { if (err) throw err })
+		if (user[req.params.id])
+	    	user[req.params.id].emit('notification', {}) 
+	} })
 }
 function	createnotif(table)
 {
