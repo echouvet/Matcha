@@ -110,7 +110,7 @@ else if (req.body.edit && req.body.general === 'Modify')
             render(notifs, 'error', 'Password must contain an uppercase')
         else
         {
-            bcrypt.hash(change, 10, function(erroo, hash) { if (erro) throw erroo
+            bcrypt.hash(change, 10, function(erroo, hash) { if (erroo) throw erroo
             updateuser('pass', hash)
             })
         }
