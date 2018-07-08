@@ -96,8 +96,7 @@ function	updatescore(event){
 		con.query('UPDATE users SET score=? WHERE id=?', [score, req.params.id], function(err){ if (err) throw err; })
 	})
 }
-
-if (req.body.like)
+if (req.body.like == '')
 {
 	checklike(req.session.profile.id, req.params.id, function(like){
 		if (like == -1 || like == 1 || like == 3)
@@ -109,7 +108,7 @@ if (req.body.like)
 		}
 	})
 }
-if (req.body.dislike)
+if (req.body.dislike == '')
 {
 	checklike(req.session.profile.id, req.params.id, function(like){
 		if (like == 0 || like == 2)

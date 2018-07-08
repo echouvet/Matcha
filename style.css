@@ -634,8 +634,24 @@ left: 15px !important;
 
 .imglike
 {
+	background: url('../like.png');
+	border:none;
 	margin-top: 1vw;
     width: 10vw;
+    height: 10vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.imgdislike
+{
+	background: url('../dislike.png');
+	border:none;
+	margin-top: 1vw;
+    width: 10vw;
+    height: 10vw;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .grayscale
@@ -812,7 +828,7 @@ left: 15px !important;
 }
 #nonotifs
 {
-	font-size: 1vw;
+	font-size: 1.5vw;
 	color:white;
 	margin-left: 3vw;
 }
