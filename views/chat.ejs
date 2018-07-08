@@ -73,8 +73,7 @@
             // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
             $('#formulaire_chat').submit(function () {
                 var message = $('#message').val();
-                    escaped = $("#message").text(message).html();
-                    message = escaped;
+                    message = escapeHtml(message);
                 socket.emit('message', message, room); // Transmet le message aux autres
                 insereMyMessage(pseudo, message); // Affiche le message aussi sur notre page
                 $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
@@ -90,7 +89,16 @@
             function insereMyMessage(pseudo, message) {
                 $('#zone_chat').append('<div class="my_msg"><p class="nomarg"><strong>' + pseudo + ' : </strong> ' + message + '</p></div>');
             }
-
+            function escapeHtml(text) {
+             var map = {
+               '&': '&amp;',
+               '<': '&lt;',
+               '>': '&gt;',
+               '"': '&quot;',
+               "'": '&#039;'
+             };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+            }
 
 
         </script>

@@ -64,7 +64,22 @@ function    getnotifs(id, callback) {
     else
         return callback(notifs);
 }) }
-
+function    checkmatch(user_id, his_id, callback)
+{
+    var a = 0
+    var b = 0
+     con.query('SELECT * FROM likes WHERE user_id = ? AND his_id = ?', [user_id, his_id], function (err, rows) { if (err) throw err 
+        if (rows.length == 1)
+            a = 1;       
+        con.query('SELECT * FROM likes WHERE user_id = ? AND his_id = ?', [his_id, user_id], function (err, rows) { if (err) throw err 
+        if (rows.length == 1)
+            b = 1;
+        if (a == 1 && b == 1)
+            return callback(1);
+        else
+            return callback(0);
+     }) })
+}
     app.get('/', function(req,res){
         if (req.session.profile == undefined)
             res.redirect('/index')
@@ -121,8 +136,12 @@ function    getnotifs(id, callback) {
     .get('/user_chat/:id', function(req,res){
         con.query("SELECT * from `users` where id = ?", [req.params.id], function( err, user2 ) { if (err) throw err
         con.query('SELECT * FROM `chat` WHERE user_id = ? OR his_id = ?', [req.params.id, req.params.id], function (err, chat) { if (err) throw err 
-        getnotifs(req.session.profile.id, function(notifs){
-        res.render('chat.ejs', {notif: notifs, req: req, css: css, user2: user2[0], chat:chat}) }) })  })
+        checkmatch(req.session.profile.id, req.params.id, function(match){
+            if (match == 0)
+                res.redirect('/')
+            else {
+                getnotifs(req.session.profile.id, function(notifs){
+                res.render('chat.ejs', {notif: notifs, req: req, css: css, user2: user2[0], chat:chat}) }) } })  }) })
     })
     .get('/matchs', function(req,res){
         getnotifs(req.session.profile.id, function(notifs){

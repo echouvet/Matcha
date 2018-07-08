@@ -36,7 +36,6 @@ function notifmsg(user_id, his_id, name) {
 }
 
 socket.on('message', function (message, room) {
-    message = ent.encode(message);
     message = eschtml(message);
     con.query("INSERT INTO `chat` (message, user_id, his_id) VALUES (?,?,?)", [message, socket.user_id, socket.his_id], function (err) { 
         if (err) throw err;
