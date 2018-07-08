@@ -46,7 +46,10 @@ function	notif(msg)
 	if (block == 0) {
 		con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [req.params.id, req.session.profile.id, msg], function (err) { if (err) throw err })
 		if (user[req.params.id])
-	    	user[req.params.id].emit('notification', {}) 
+		{
+	    	con.query('SELECT date FROM notifs WHERE user_id=? AND his_id=? AND notif=?', [req.params.id, req.session.profile.id, msg], function (err, date) { if (err) throw err 
+    		user[req.params.id].emit('notification', {his_id: req.params.id, not: msg, date:date[0].date}); })
+		}
 	} })
 }
 function	createnotif(table)

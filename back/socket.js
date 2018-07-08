@@ -27,9 +27,11 @@ function notifmsg(user_id, his_id, name) {
             var msg = name +' HAS SENT YOU A NEW MESSAGE'
             con.query('INSERT INTO notifs (user_id, his_id, notif) VALUES (?, ?, ?) ', [his_id, user_id, msg], function (err) { if (err) throw err })
             if (user[his_id])
-                user[his_id].emit('notification', {})
+            {
+                con.query('SELECT date FROM notifs WHERE user_id=? AND his_id=? AND notif=?', [his_id, user_id, msg], function (err, date) { if (err) throw err 
+                user[his_id].emit('notification', {his_id: his_id, not: msg, date:date[0].date}); })
+            }
         }
-
     })
 }
 
