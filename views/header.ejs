@@ -17,13 +17,14 @@
 	<% } else { var i = 0;
 		while (notif[i]) { %>
 		<a href=<%-'/user_profile/' + notif[i].his_id %> style='text-decoration: none;'>
-			<div class=notif>
+			<% if (notif[i].seen == 1) { %><div class=notif> <% } else { %><div class=notifunseen><% } %>
 				<p> <%- notif[i].notif %> </p>
 				<p> <%- notif[i].date %> </p>
 			</div>
 		</a><% if (notif[i + 1]) { %><hr style="margin:0px;"/><% } %>
 	<% i++; } } %>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
    var socket = io('http://localhost:8080');
@@ -36,7 +37,7 @@
     	socket.emit('setUserId', id);
 	});
 	socket.on('notification', function (data) {
-		$('#notifbox').prepend('<a href="/user_profile/' + data.his_id +'" style="text-decoration: none;"><div class=notif><p>' + data.not + '</p><p> ' + data.date + '</p></div></a><hr style="margin:0px;"/>');
+		$('#notifbox').prepend('<a href="/user_profile/' + data.his_id +'" style="text-decoration: none;"><div class=notifunseen><p>' + data.not + '</p><p> ' + data.date + '</p></div></a><hr style="margin:0px;"/>');
 		document.getElementById('dot').style.display = "inherit";
 	});
 	<% if (Array.isArray(notif) == false || notif[0].seen == 1) {%>

@@ -823,6 +823,14 @@ left: 15px !important;
 	font-size: 1vw;
 	padding: 5px;
 }
+.notifunseen
+{
+	background-color: rgba(255, 255, 255,0.61);
+	color:black;
+	word-wrap: break-word;
+	font-size: 1vw;
+	padding: 5px;
+}
 .notifdot
 {
 	position:absolute;
