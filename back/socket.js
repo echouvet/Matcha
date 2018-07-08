@@ -29,7 +29,7 @@ function notifmsg(user_id, his_id, name) {
             if (user[his_id])
             {
                 con.query('SELECT date FROM notifs WHERE user_id=? AND his_id=? AND notif=?', [his_id, user_id, msg], function (err, date) { if (err) throw err 
-                user[his_id].emit('notification', {his_id: his_id, not: msg, date:date[0].date}); })
+                user[his_id].emit('notification', {his_id: user_id, not: msg, date:date[0].date}); })
             }
         }
     })

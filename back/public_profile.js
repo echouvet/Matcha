@@ -48,7 +48,7 @@ function	notif(msg)
 		if (user[req.params.id])
 		{
 	    	con.query('SELECT date FROM notifs WHERE user_id=? AND his_id=? AND notif=?', [req.params.id, req.session.profile.id, msg], function (err, date) { if (err) throw err 
-    		user[req.params.id].emit('notification', {his_id: req.params.id, not: msg, date:date[0].date}); })
+    		user[req.params.id].emit('notification', {his_id: req.session.profile.id, not: msg, date:date[0].date}); })
 		}
 	} })
 }
