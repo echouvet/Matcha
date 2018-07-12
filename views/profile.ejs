@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,7 +129,7 @@
        while (profile.tag[i])
          {
             %>
-            <div class="tag"><form action="/profile" method="post"><strong>#<%= profile.tag[i].tag %></strong><input type="image" src="croix.svg" id="buttondeletetag" name="deltag" value="<%= profile.tag[i++].id %>"></form></div><%
+            <div class="tag"><form action="/profile" method="post"><strong>#<%- profile.tag[i].tag %></strong><input type="image" src="croix.svg" id="buttondeletetag" name="deltag" value="<%= profile.tag[i++].id %>"></form></div><%
          }}
          %>
      </div>
@@ -160,7 +161,6 @@
 </div>
 </body>
  </html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $.ajax({
     url: 'http://api.ipstack.com/check?access_key=97307c73fbc24738033ecab287ad0a82',   

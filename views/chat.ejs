@@ -30,76 +30,70 @@
             </form>
         </div>
     </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript">
-            function scrolldiv() {
-        document.getElementById('zone_chat').scrollTop = 100000;
+<script type="text/javascript">
+    function scrolldiv() {
+    document.getElementById('zone_chat').scrollTop = 100000; }
+    // Connexion à socket.io
+    var socket = io.connect('http://localhost:8080');
+
+    // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
+
+    var pseudo = "<%- req.session.profile.login %>";
+        user_id = "<%- req.session.profile.id %>";
+        his_id = "<%- req.params.id %>";
+        if (user_id > his_id)
+            var room = user_id + his_id;
+        else
+            var room = his_id + user_id;
+
+    socket.emit('room', user_id, his_id);
+    document.title = 'Chatting - ' + document.title;
+    socket.emit('nouveau_client', pseudo, user_id, his_id);
+
+    // Quand on reçoit un message, on l'insère dans la page
+    socket.on('message', function(data) {
+        var mylogin = "<%- req.session.profile.login %>";
+        if (mylogin != data.pseudo)
+            insereMessage(data.pseudo, data.message);
+        scrolldiv();
+    })
+
+    // Quand un nouveau client se connecte, on affiche l'information
+    socket.on('nouveau_client', function(pseudo) {
+        $('#zone_chat').append('<div class="my_msg"><p class="nomarg"><em>' + pseudo + ' a rejoint le Chat !</em></p></div>');
+        scrolldiv();
+    })
+
+    // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+    $('#formulaire_chat').submit(function () {
+        var message = $('#message').val();
+            message = escapeHtml(message);
+        socket.emit('message', message, room); // Transmet le message aux autres
+        insereMyMessage(pseudo, message); // Affiche le message aussi sur notre page
+        $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
+        scrolldiv();
+        return false; // Permet de bloquer l'envoi "classique" du formulaire
+    });
+    
+    // Ajoute un message dans la page
+    function insereMessage(pseudo, message) {
+        $('#zone_chat').append('<div class="a_msg"><p class="nomarg"><strong>' + pseudo + ' : </strong> ' + message + '</p></div>');
     }
+
+    function insereMyMessage(pseudo, message) {
+        $('#zone_chat').append('<div class="my_msg"><p class="nomarg"><strong>' + pseudo + ' : </strong> ' + message + '</p></div>');
+    }
+    function escapeHtml(text) {
+         var map = {
+           '&': '&amp;',
+           '<': '&lt;',
+           '>': '&gt;',
+           '"': '&quot;',
+           "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+
 </script>
-        <script>
-        // Connexion à socket.io
-            var socket = io.connect('http://localhost:8080');
-
-            // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
-
-            var pseudo = "<%- req.session.profile.login %>";
-                user_id = "<%- req.session.profile.id %>";
-                his_id = "<%- req.params.id %>";
-                if (user_id > his_id)
-                    var room = user_id + his_id;
-                else
-                    var room = his_id + user_id;
-
-            socket.emit('room', user_id, his_id);
-            document.title = 'Chatting - ' + document.title;
-            socket.emit('nouveau_client', pseudo, user_id, his_id);
-
-            // Quand on reçoit un message, on l'insère dans la page
-            socket.on('message', function(data) {
-                var mylogin = "<%- req.session.profile.login %>";
-                if (mylogin != data.pseudo)
-                    insereMessage(data.pseudo, data.message);
-                scrolldiv();
-            })
-
-            // Quand un nouveau client se connecte, on affiche l'information
-            socket.on('nouveau_client', function(pseudo) {
-                $('#zone_chat').append('<div class="my_msg"><p class="nomarg"><em>' + pseudo + ' a rejoint le Chat !</em></p></div>');
-                scrolldiv();
-            })
-
-            // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
-            $('#formulaire_chat').submit(function () {
-                var message = $('#message').val();
-                    message = escapeHtml(message);
-                socket.emit('message', message, room); // Transmet le message aux autres
-                insereMyMessage(pseudo, message); // Affiche le message aussi sur notre page
-                $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
-                scrolldiv();
-                return false; // Permet de bloquer l'envoi "classique" du formulaire
-            });
-            
-            // Ajoute un message dans la page
-            function insereMessage(pseudo, message) {
-                $('#zone_chat').append('<div class="a_msg"><p class="nomarg"><strong>' + pseudo + ' : </strong> ' + message + '</p></div>');
-            }
-
-            function insereMyMessage(pseudo, message) {
-                $('#zone_chat').append('<div class="my_msg"><p class="nomarg"><strong>' + pseudo + ' : </strong> ' + message + '</p></div>');
-            }
-            function escapeHtml(text) {
-             var map = {
-               '&': '&amp;',
-               '<': '&lt;',
-               '>': '&gt;',
-               '"': '&quot;',
-               "'": '&#039;'
-             };
-            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-            }
-
-
-        </script>
 </body>

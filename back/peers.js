@@ -195,7 +195,7 @@ function    gender_orientation(orientation, gender, callback)
 }
 
 if (req.session.profile == undefined)
-    res.render('index.ejs', {css: css})
+    res.redirect('/')
 else if (profilevalidate(req, res, css, req.session.profile) == false)
      ;
 else
@@ -215,57 +215,66 @@ else
             tritags(req.session.profile, result)
         if (req.body.agemax)
         {
+            if (!isNaN(req.body.agemax)) {
             result = result.filter(function(val, i, result) {
                 return (val.age <= req.body.agemax);
-            });
+            }) };
         }
         if (req.body.agemin)
         {
+            if (!isNaN(req.body.agemin)) {
             result = result.filter(function(val, i, result) {
                 return (val.age >= req.body.agemin);
-            });
+            }) };
         }
         if (req.body.scoremax)
         {
+            if (!isNaN(req.body.scoremax)) {
             result = result.filter(function(val, i, result) {
                 return (val.score <= req.body.scoremax);
-            });
+            }) };
         }
         if (req.body.scoremin)
         {
+            if (!isNaN(req.body.scoremin)) {
             result = result.filter(function(val, i, result) {
                 return (val.score >= req.body.scoremin);
-            });
+            }) };
         }
         if (req.body.distance)
         {
+            if (!isNaN(req.body.distance)) {
             result = result.filter(function(val, i, result) {
                 return (val.distance <= req.body.distance);
-            });
+            }) };
         }
         if (req.body.tags)
         {
             var tags = eschtml(req.body.tags)
+            if (!req.body.tags.trim())
+                ;
+            else {
                 tabtags = tags.split(";")
-            result = result.filter(function(val, i, result) {
-                var nbtagmatch = 0
-                    j = 0
-                while (tabtags[j])
-                {
-                    var e = 0
-                    while (val.tags[e])
+                result = result.filter(function(val, i, result) {
+                    var nbtagmatch = 0
+                        j = 0
+                    while (tabtags[j])
                     {
-                        if (tabtags[j] == val.tags[e].tag)
-                            nbtagmatch++
-                        e++
+                        var e = 0
+                        while (val.tags[e])
+                        {
+                            if (tabtags[j] == val.tags[e].tag)
+                                nbtagmatch++
+                            e++
+                        }
+                        j++
                     }
-                    j++
-                }
-                if (nbtagmatch >= j)
-                    return (true)
-                else
-                    return (false)
-            });
+                    if (nbtagmatch >= j)
+                        return (true)
+                    else
+                        return (false)
+                });
+            }
         }
        res.render('peers.ejs', {notif: notifs, peer: result, css: css})
     }) });

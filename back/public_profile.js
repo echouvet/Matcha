@@ -142,11 +142,14 @@ if ((req.session.profile.id != req.params.id) && !req.body.like && !req.body.dis
 	insertinto('visits')
 
 con.query('SELECT * FROM users WHERE id = ?', [req.params.id], function (err, result) { if (err) throw err
+	if (result.length == 0)
+		res.redirect('/')
+	else {
 con.query('SELECT * FROM tags WHERE user_id = ?', [req.params.id], function (err, resultag) { if (err) throw err 
 checklike(req.session.profile.id, req.params.id, function(like) {
 check('block', req.session.profile.id, req.params.id, function(block){
 check('report', req.session.profile.id, req.params.id, function(report){
 var online = checkonline();
-res.render('public_profile.ejs', {notif: notifs, req: req, online: online, css: css, like: like, block: block, report: report, profile: result[0], tag: resultag }) }) }) }) }) })
+res.render('public_profile.ejs', {notif: notifs, req: req, online: online, css: css, like: like, block: block, report: report, profile: result[0], tag: resultag }) }) }) }) }) } })
 
 
