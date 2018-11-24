@@ -3,6 +3,7 @@ Ce projet est un site de rencontres.
 C'est une application permettant à un utilisateur de s’inscrire
 et de renseigner ses détails personnels et ses préférences dans l’autre, en vue de pouvoir
 matcher avec un autre utilisateur ayant un profil plus ou moins correspondant.
+
 Une fois qu’ils se sont réciproquement matchés, ces deux profils devront pouvoir s’échanger
 des mots doux et plus si affinités via un chat privé.
 
