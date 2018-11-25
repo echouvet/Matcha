@@ -9,7 +9,7 @@ des mots doux via un chat privé.
 
 Le sujet du projet 42 se trouve à la racine dans le fichier Sujet.pdf
 
-Technologies nécessaire:
+Technologies nécessaires:
 - Node.js >= v8.12.0
 - NPM >= 6.4.1 
 - MySQL >= 8.0.11
