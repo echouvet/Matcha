@@ -21,6 +21,6 @@ Pour lancer le site:
 4) Taper "node server.js" à la racine
 5) Rentrer "localhost:8080" dans votre navigateur web (testé avec Chrome)
 
-Pour lancer le seed et créer 600 utilisateurs, taper "localhost:8080/seed" (ceci ne marche que une fois)
+Pour lancer le seed et créer 600 utilisateurs, taper "localhost:8080/seed" (ceci ne marche qu'une fois)
 - Les identifiants de ces utilisateurs: FakeUser(numéro) example: FakeUser42
 - Mot de Passe pour tous: Fakeuser42
