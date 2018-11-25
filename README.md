@@ -15,8 +15,8 @@ Technologies nécessaires:
 - MySQL >= 8.0.11
 
 Pour lancer le site: 
-1) Cloner ce repertoire
-2) Taper "npm i" à la racine du repertoire
+1) Cloner ce répertoire
+2) Taper "npm i" à la racine du répertoire
 3) Lancer MySQL puis insérer vos identifiants dans le fichier server.js
 4) Taper "node server.js" à la racine
 5) Rentrer "localhost:8080" dans votre navigateur web (testé avec Chrome)
